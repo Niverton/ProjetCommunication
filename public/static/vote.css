@@ -1,0 +1,40 @@
+
+body
+{
+    margin: 0;
+    
+    background-color: rgb(50,50,50);
+    color: white;
+}
+
+.gallery > a
+{
+    display: inline-block;
+
+    background-size: cover;
+    background-position: center;
+
+    text-decoration: none;
+}
+.gallery > a > span
+{
+    display: block;
+    
+    width: 300px;
+    height: 300px;
+
+    overflow: hidden;
+
+    color: rgba(0,0,0,0);
+}
+.gallery > a:hover > span
+{
+    background-color: rgba(0,0,0,0.8);
+    color: white;
+}
+
+
+header
+{
+    
+}
