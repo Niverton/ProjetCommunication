@@ -11,21 +11,21 @@
   <body>
     
     <header>
-      <h1>Votez pour votre œuvre favorite !</h1>
-      <h2>Musée des beaux arts de bordeaux</h2>
-      
+      <div>
+        <h1>Votez pour votre œuvre favorite !</h1>
+        <h2>Musée des beaux arts de bordeaux</h2>
+        <time>Session de vote ouverte du {{$fromDate}} au {{$toDate}}</time>
+      </div>
       <p>{{$sessionDescription}}</p>
     </header>
     
     <div class="gallery">
-      @foreach ($artworks as $a)
-      <a href="#artwork{{$a['id']}}" style="background-image: url({{$a['image']}});">
+      @foreach ($artworks as $a)<a href="#artwork{{$a['id']}}" style="background-image: url({{$a['image']}});">
         <span>
-          <strong>{{$a['name']}}</strong> 
-          <span>{{$a['author']}}</span>
+          <strong class="name"  >{{$a['name']}}  </strong> 
+          <span   class="author">{{$a['author']}}</span>
         </span>
-      </a>
-      @endforeach
+      </a>@endforeach
     </div>
     
     @foreach ($artworks as $a)
