@@ -127,7 +127,125 @@ header > div > h2
 }
 
 
-header
+.artwork
 {
-    
+    position: fixed;
+    display: none;
+}
+.artwork:target
+{
+    display: block;
+}
+
+.artwork > .background
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(255,255,255,0.8);    
+}
+
+.artwork > div
+{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+
+    white-space: nowrap;
+
+    transform: translate(-50%,-50%);
+}
+.artwork > div > img
+{
+    display: inline-block;
+    vertical-align: top;
+
+    max-width: 40vw;
+    max-height: 70vh;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+}
+.artwork > div > .side
+{
+    display: inline-block;
+    vertical-align: top;
+
+    max-width: 30vw;
+
+    white-space: normal;
+}
+.artwork > div > .side > *
+{
+    width: 100%;
+    margin: 0 0 5px 5px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+
+.artwork > div > .side > .info
+{
+    background-color: rgb(50,50,50);
+    color: white;
+
+    font-size: 105%;
+}
+.artwork > div > .side > .info > *
+{
+    display: block;
+    margin: 0 0 5px 0;
+}
+.artwork > div > .side > .info > :last-child
+{
+    margin-bottom: 0;
+}
+
+.artwork > div > .side > .info h4
+{
+    font-size: 140%;
+}
+.artwork > div > .side > .info .author
+{
+    font-size: 140%;
+    font-style: italic;
+}
+.artwork > div > .side > .info time
+{
+    font-size: 140%;
+    padding-left: 15px;
+    text-decoration: underline;
+}
+.artwork > div > .side > .info p
+{
+    margin-top: 15px;
+}
+
+.artwork > div > .side > button
+{
+    background-color: rgba(37,116,169, 0.9);
+    color: white;
+    border: none;
+
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 110%;
+}
+.artwork > div > .side > .close
+{
+    display: block;
+
+    background-color: rgba(255,255,255, 0.9);
+    color: rgb(50,50,50);
+
+    text-align: center;
+    text-decoration: none;
+
+    font-weight: bold;
+    font-size: 110%;
 }
