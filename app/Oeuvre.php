@@ -12,7 +12,11 @@ class Oeuvre extends Model
 
     public function sessions()
     {
-        return $this->belongsToMany('App\Session');
+        return $this->belongsToMany('App\Session', "sessions_has_oeuvres", "id_oeuvres", "id_sessions")->withPivot('score');
+    }
+
+    public function auteur() {
+        return $this->belongsTo('App\Auteur', "auteur_id_auteurs");
     }
 }
 
