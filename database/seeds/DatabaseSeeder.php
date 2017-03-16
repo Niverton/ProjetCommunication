@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         $session->description = str_random(100);
         $session->date_debut = Carbon::now();
         $fin = Carbon::now();
-        $fin->month += 1;
+        $fin->addMonth();
         $session->date_fin = $fin;
         $session->save();
 
