@@ -10,7 +10,7 @@ class Session extends Model
 
     public $timestamps = false;
 
-    //Permet de récupérer les oeuvres à travers la session, avec le score dans la table intermédiaire
+    //Permet de récupérer les oeuvres au travers d'une session, avec le score dans la table intermédiaire
     public function oeuvres()
     {
         return $this->belongsToMany('App\Oeuvre', "sessions_has_oeuvres", "id_sessions", "id_oeuvres")->withPivot('score');

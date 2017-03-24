@@ -16,7 +16,7 @@ class VoteController extends Controller
      */
     private function getActiveSession() {
         $sessions = Session::all();
-        $sessions = $sessions->reject(function ($value, $key) { //Rejete toutes les sessions inactives
+        $sessions = $sessions->reject(function ($value, $key) { //Permet de rejeter les sessions inactives
             $d = new Carbon($value->date_fin);
             return $d->lte(Carbon::now());
         });
@@ -26,8 +26,7 @@ class VoteController extends Controller
 
     public function show() {
         $session = $this->getActiveSession();
-        //On recupere toutes les oeuvres atachees a la session
-        $oeuvres = $session->oeuvres()->get();
+        $oeuvres = $session->oeuvres()->get(); //Permet de récupérer les oeuvres attachées à une session
 
         $artworks = [];
         foreach ($oeuvres as $oeuvre) {
@@ -51,4 +50,3 @@ class VoteController extends Controller
         return view("vote", $args);
     }
 }
-

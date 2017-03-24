@@ -25,7 +25,6 @@ $app->get("/vote", 'VoteController@show');
 
 $app->get("/admin", function() use ($app) {
    
-   return "coucou :)";
+   return "Hello, world! :)";
    
 });
-
