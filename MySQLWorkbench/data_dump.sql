@@ -26,7 +26,7 @@ CREATE TABLE `auteurs` (
   `id_auteur` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id_auteur`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,7 +35,7 @@ CREATE TABLE `auteurs` (
 
 LOCK TABLES `auteurs` WRITE;
 /*!40000 ALTER TABLE `auteurs` DISABLE KEYS */;
-INSERT INTO `auteurs` VALUES (7,'Dire Straits');
+INSERT INTO `auteurs` VALUES (13,'Dire Straits'),(14,'The Cranberries');
 /*!40000 ALTER TABLE `auteurs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,7 +56,7 @@ CREATE TABLE `oeuvres` (
   PRIMARY KEY (`id_oeuvre`,`auteur_id_auteurs`),
   KEY `fk_oeuvres_auteurs1_idx` (`auteur_id_auteurs`),
   CONSTRAINT `fk_oeuvres_auteurs1` FOREIGN KEY (`auteur_id_auteurs`) REFERENCES `auteurs` (`id_auteur`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +65,7 @@ CREATE TABLE `oeuvres` (
 
 LOCK TABLES `oeuvres` WRITE;
 /*!40000 ALTER TABLE `oeuvres` DISABLE KEYS */;
-INSERT INTO `oeuvres` VALUES (9,'Money for Nothing','1985','5P0padPfQZ4UMfQu6reQptZXyxSJ3NkM256BFH4vmvcoEFat1X','http://www.popjoust.com/images/jousters/jouster-5177-Money_for_nothing_clip.jpg',7),(10,'Sultans of Swing','1977','DvZl0GEaDPFyqKbGrG4bvo4DAwAYWezg7ckWw4NnzYZNSC07DF','http://images.45cat.com/dire-straits-sultans-of-swing-vertigo-7.jpg',7);
+INSERT INTO `oeuvres` VALUES (21,'Money for Nothing','1985','tUlKAJ3ToOmmcKwcYNNDPchL9Gp3cgsfYIcxfK5mB87YFHx58R','http://www.popjoust.com/images/jousters/jouster-5177-Money_for_nothing_clip.jpg',13),(22,'Sultans of Swing','1977','A2u7xh0QVa6JbWgvwUekOkFUhtVxRZ2Qkrskx3RQaa0VOcxxfN','http://images.45cat.com/dire-straits-sultans-of-swing-vertigo-7.jpg',13),(23,'Zombie','1994','uvO9sTwDmLtSwPzZFavp1yvD8fkV2o230yP1sUE4DF5DD0rZST','https://i.ytimg.com/vi/6Ejga4kJUts/maxresdefault.jpg',14),(24,'Animal Instinct','1999','FcFQ8QKI5JQtDmCPhutlPUkEsCcfC6krptqGwdhs0iuxxMBR4t','https://i.ytimg.com/vi/bSQ7CJSTTxo/hqdefault.jpg',14);
 /*!40000 ALTER TABLE `oeuvres` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -82,7 +82,7 @@ CREATE TABLE `sessions` (
   `date_fin` date DEFAULT NULL,
   `description` longtext,
   PRIMARY KEY (`id_session`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='Sessions de votes';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='Sessions de votes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,7 +91,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES (7,'2017-03-16','2017-04-16','lWlzC2JroNoZQvEXcYWqOFh3csWZlJrv5VhC8vSJnQcpokUF6EiHmbxyXUMXyh3OmSIc1CG6Mlu0jJC5UnqqxGJNMLxO3MaYuFuu');
+INSERT INTO `sessions` VALUES (14,'2017-03-19','2017-04-19','V4wwFPBVoYvRIdqQkvmJs2WgFflkKQmNl5BTbGQblnvyPlMXYmJcUAhHOkpv7B9KrhYFl9nCVFuqIMZhXKvxJO1pAqoaHMmQz8dO'),(15,'2017-02-19','2017-03-18','qi8Ho2Oy9ObrtjXLkdFVXJys0C57l2SiX4v0yvguEQLomOyeRmDMW5Sn9rsr7T4WpqIfSxdG0BuszJypEs34qQjVrxJ6qRLuWy7a');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,7 +120,7 @@ CREATE TABLE `sessions_has_oeuvres` (
 
 LOCK TABLES `sessions_has_oeuvres` WRITE;
 /*!40000 ALTER TABLE `sessions_has_oeuvres` DISABLE KEYS */;
-INSERT INTO `sessions_has_oeuvres` VALUES (7,9,0),(7,10,10);
+INSERT INTO `sessions_has_oeuvres` VALUES (14,21,0),(14,22,10),(14,23,15),(14,24,25),(15,23,0),(15,24,10);
 /*!40000 ALTER TABLE `sessions_has_oeuvres` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -133,4 +133,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-16 18:08:01
+-- Dump completed on 2017-03-24 10:51:27
