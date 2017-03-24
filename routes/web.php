@@ -15,7 +15,7 @@ $app->get("/", function() use ($app) {
    return '
 <h1>Coucou !</h1>
 <ul>
-   <li> <a href="/vote/oeuvres">/vote/oeuvres</a> </li>
+   <li> <a href="/vote">/vote</a> </li>
    <li> <a href="/vote/auteurs">/vote/auteurs</a> </li>
    <li> <a href="/admin">/admin</a> </li>
 </ul>
