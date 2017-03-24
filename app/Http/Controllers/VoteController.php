@@ -16,13 +16,13 @@ class VoteController extends Controller
      */
     private function getActiveSessions() {
         $sessions = Session::all(); 
-        //On rejete toutes les sessions inactives (celles dont la date de fin est plus petite que la date actuelle)
+        //On rejète toutes les sessions inactives (celles dont la date de fin est plus petite que la date actuelle)
         $filter = $sessions->reject(function ($value, $key) {
             $d = new Carbon($value->date_fin);
             return $d->lte(Carbon::now());
         });
         $filter->sortBy('id_session');
-        //On préchauffe les oeuvres, réduit le nombre de requètes plus tard
+        //On préchauffe les oeuvres, réduit le nombre de requêtes plus tard
         $filter->load('oeuvres');
         return $filter;
     }
@@ -55,7 +55,7 @@ class VoteController extends Controller
             ];
         }
 
-        //TODO temp? Changer de vue, changer desc/titre ?
+        //TODO temp ? Changer de vue, changer desc/titre ?
         $args = [
             'sessionDescription'=> $session->description,
             'fromDate'=> $session->date_debut,
@@ -76,7 +76,7 @@ class VoteController extends Controller
         if (is_null($session))
             return "Pas de session en cours !"; //TODO View
 
-        $auteur = Auteur::where('nom', urldecode($aut))->get()->last(); //Urldecode remplace les %20 par des espaces par ex
+        $auteur = Auteur::where('nom', urldecode($aut))->get()->last(); //Url de code remplace les %20 par des espaces par ex
         if (is_null($auteur))
             return 'Auteur non trouvé dans la session.'; //TODO
 
@@ -116,7 +116,7 @@ class VoteController extends Controller
         if (is_null($session))
             return "Pas de session en cours !"; //TODO View
         
-        //On recupere toutes les oeuvres atachees a la session
+        //On recupère toutes les oeuvres atachées à la session
         $contents = $session->oeuvres()->get();
         
         $artworks = [];
