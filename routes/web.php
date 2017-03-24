@@ -31,7 +31,6 @@ $app->get("/vote", 'VoteController@showArtworks');
 
 $app->get("/admin", function() use ($app) {
    
-   return "coucou :)";
+   return "Hello, world! :)";
    
 });
-

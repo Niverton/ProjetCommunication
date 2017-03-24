@@ -142,4 +142,3 @@ class VoteController extends Controller
         return view("vote", $args);
     }
 }
-

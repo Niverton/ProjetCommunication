@@ -19,4 +19,3 @@ class Oeuvre extends Model
         return $this->belongsTo('App\Auteur', "auteur_id_auteurs");
     }
 }
-
