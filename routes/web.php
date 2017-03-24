@@ -15,13 +15,19 @@ $app->get("/", function() use ($app) {
    return '
 <h1>Coucou !</h1>
 <ul>
-   <li> <a href="/vote">/vote</a> </li>
+   <li> <a href="/vote/oeuvres">/vote/oeuvres</a> </li>
+   <li> <a href="/vote/auteurs">/vote/auteurs</a> </li>
    <li> <a href="/admin">/admin</a> </li>
 </ul>
 ';
 });
 
-$app->get("/vote", 'VoteController@show');
+/* Liste d'auteurs de la session active */
+$app->get("/vote/auteurs/", 'VoteController@showAuthors');
+/* Liste des oeuvres de {auteur} */
+$app->get("/vote/{auteur}", 'VoteController@showAuthorsContent');
+/* Liste des oeuvres de la session active */
+$app->get("/vote", 'VoteController@showArtworks');
 
 $app->get("/admin", function() use ($app) {
    
