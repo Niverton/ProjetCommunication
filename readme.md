@@ -2,23 +2,24 @@
 Deux options pour la base :
 
 ## Au CREMI
-Un espace de dev web est disponible, vous pouvez utiliser l'espace `~/espaces/www/`
-Le site sera accessible depuis `http://\<PRENOM>.\<NOM>.emi.u-bordeaux.fr/`
+Un espace de dev web est disponible, vous pouvez utiliser l'espace `~/espaces/www/`  
+Le site sera accessible depuis `http://\<PRENOM>.\<NOM>.emi.u-bordeaux.fr/`  
 Créez des sous-dossiers pour vous y retrouver
 
 ## Chez soi
-Les devs de Laravel fournissent une base de VM Ubuntu déjà configurée (pas mal pour dev sous Windows), suivre les instructions [ici](https://laravel.com/docs/5.4/homestead) pour la mettre en place (modifiez les maps de dossiers et sites si besoin). Je conseille d'utiliser VirtualBox en provider de Vagrant
+Les devs de Laravel fournissent une base de VM Ubuntu déjà configurée (pas mal pour dev sous Windows), suivre les instructions [ici](https://laravel.com/docs/5.4/homestead) pour la mettre en place (modifiez les maps de dossiers et sites si besoin)  
+Je conseille d'utiliser VirtualBox en provider de Vagrant
 
 ### Pour Arch Linux
-Il faut aussi installer `net-tools` pour que la partie network de VirtualBox fonctionne, et utiliser `virtualbox-host-dkms` comme provider des drivers VirtualBox (nécessite `linux-headers`)
-Je conseille vraiment de se servir de la VM, c'est assez rapide à installer (si vous galérez c'est que vous avez sauté une étape, comme moi :rip:)
+Il faut aussi installer `net-tools` pour que la partie network de VirtualBox fonctionne, et utiliser `virtualbox-host-dkms` comme provider des drivers VirtualBox (nécessite `linux-headers`)  
+Je conseille vraiment de se servir de la VM, c'est assez rapide à installer (si vous galérez c'est que vous avez sauté une étape, comme moi :rip:)  
 N'oubliez pas de mapper correctement les redirections de dossiers et les sites, et d'ajouter `192.168.10.10  homestead.app` dans votre fichier host
 
 # Mettre en place le projet
 Y'a plus qu'à cloner le dépot
 
 ## homestead
-Clonez le dépot dans la racine du dossier mappé vers la VM, par exemple j'ai mon dossier homestead sur le host, qui contient le dépot
+Clonez le dépot dans la racine du dossier mappé vers la VM, par exemple j'ai mon dossier homestead sur le host, qui contient le dépot  
 Ce dossier est mappé vers /home/vagrant/Code sur le guest, et le site web est mappé vers /home/vagrant/Code/public dans le guest
 
 # Lumen PHP Framework
