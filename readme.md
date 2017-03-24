@@ -19,8 +19,7 @@ N'oubliez pas de mapper correctement les redirections de dossiers et les sites, 
 Y'a plus qu'à cloner le dépot
 
 ## homestead
-Clonez le dépot dans la racine du dossier mappé vers la VM, par exemple j'ai mon dossier homestead sur le host, qui contient le dépot  
-Ce dossier est mappé vers /home/vagrant/Code sur le guest, et le site web est mappé vers /home/vagrant/Code/public dans le guest
+Clonez le dépot dans la racine du dossier mappé vers la VM, par exemple j'ai mon dossier homestead sur le host, qui contient le dépot (ce dossier est mappé vers /home/vagrant/Code sur le guest, et le site web est mappé vers /home/vagrant/Code/public dans le guest)
 
 # Lumen PHP Framework
 [![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
