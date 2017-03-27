@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Session;
 use App\Auteur;
 use App\Oeuvre;
@@ -140,5 +141,25 @@ class VoteController extends Controller
         ];
 
         return view("vote", $args);
+    }
+
+    /*
+     * Upvotes an artwork in the current active session.
+     * @param request: the HTTP request
+     */
+    public function upvote(Request $request) {
+        $sessions = $this->getActiveSessions();
+        $session = $sessions->last();
+        //Pas vraiment certain, à voir comment les requètes AJAX fonctionnent
+        if (is_null($session))
+            return;
+
+        $id = $request->input('id');
+
+        $o = $session->oeuvres()->where('id_oeuvre', $id)->get()->last();
+        if (is_null($o))
+            return; //La même
+        
+        $session->oeuvres()->updateExistingPivot($id, ['score' => $o->pivot->score + 1]);        
     }
 }
