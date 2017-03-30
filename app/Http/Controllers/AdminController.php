@@ -9,7 +9,7 @@ use App\Auteur;
 use App\Oeuvre;
 use Carbon\Carbon;
 
-class ExampleController extends Controller
+class AdminController extends Controller
 {
 
 		private function getSessions() {
@@ -28,7 +28,7 @@ class ExampleController extends Controller
 			$session = $sessions->last();
 			if (is_null($session)) {
 				$activesession = [
-					'active' = 0
+					'active' => 0
 				];
 				return $activesession;
 			}
@@ -43,7 +43,7 @@ class ExampleController extends Controller
 				];
 			}
 			$activesession = [
-				'active' = 1;
+				'active' => 1,
 				'sessionID' => $s->id_session,
 				'fromDate' => $s->date_debut,
 				'toDate' => $s->date_fin,
@@ -69,7 +69,7 @@ class ExampleController extends Controller
 						'name' => $c->nom,
 						'author' => $c->auteur()->get()->last->nom,
 						'date' => $c->date,
-						'score' => $c->pivot->score;
+						'score' => $c->pivot->score
 					];
 				}
 				$allsessions[] = [
