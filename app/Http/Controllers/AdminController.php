@@ -108,16 +108,72 @@ class AdminController extends Controller
 			return $args;
 		}
 
-        public function createSession()
-        {
-            $args = [
-                "sessionDescription" => "coucou",
-                "fromDate" => "",
-                "toDate" => "",
+    public function createSession()
+    {
+			$args = [
+				"sessionDescription" => "coucou",
+				"fromDate" => "",
+				"toDate" => "",
+				"artworks" => $this->getOeuvres()
+			];
+			return view("admin_create_session", $args);
+		}
 
-                "artworks" => $this->getOeuvres()
-            ];
-            
-            return view("admin_create_session", $args);
-        }
+		public function newSession($fromDate, $toDate, $description, $oeuvres) {
+			$session = new Session;
+			$session->date_debut = $fromDate;
+			$session->date_fin = $toDate;
+			$session->description = $description;
+			$session->save();
+			foreach ($oeuvres as $o) {
+				$session->oeuvres()->attach($o->id_oeuvre, ['score' => 0]);
+			}
+			return showHome();
+		}
+
+		public function setFromDate($fromDate) {
+			$sessions = $this->getSessions();
+			$sessions = $sessions->reject(function ($value, $key) {
+				$d = new Carbon($value->date_debut);
+				return $d->lt(Carbon::now());
+			});
+			$session = $sessions->last();
+			if (is_null($session))
+				return;
+			$session->date_debut = $fromDate;
+			return showHome();
+		}
+
+		public function setToDate($toDate) {
+			$sessions = $this->getSessions();
+			$sessions = $sessions->reject(function ($value, $key) {
+				$d = new Carbon($value->date_fin);
+				return $d->lt(Carbon::now());
+			});
+			$session = $sessions->last();
+			if (is_null($session))
+				return;
+			$session->date_fin = $toDate;
+			return showHome();
+		}
+
+		public function setDate($fromDate, $toDate) {
+			$sessions = $this->getSessions();
+			$finder = $sessions->reject(function ($value, $key) {
+				$d = new Carbon($value->date_debut);
+				return $d->lt(Carbon::now());
+			});
+			$session = $finder->last();
+			if (!is_null($session))
+				$session->date_debut = $fromDate;
+			$finder = $sessions->reject(function ($value, $key) {
+				$d = new Carbon($value->date_fin);
+				return $d->lt(Carbon::now());
+			});
+			$session = $finder->last();
+			if (!is_null($session))
+				$session->date_fin = $toDate;
+			return showHome();
+		}
+
 }
