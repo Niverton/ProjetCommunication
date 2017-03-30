@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <title>Votez pour vos œuvres favorites - Musée des beaux-arts de Bordeaux</title>
-    <link rel="stylesheet" href="/static/vote.css">
+    <link rel="stylesheet" href="/static/style.css">
     <script src="script.js"></script>
   </head>
   

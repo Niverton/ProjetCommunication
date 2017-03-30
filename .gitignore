@@ -1,3 +1,8 @@
 
 # Fichiers temporaires
 *~
+
+# Pour ne pas partager des paramètres perso
+# utilisez env pour mettre des paramètres génériques/exemples, puis
+# $ cp env .env
+.env
