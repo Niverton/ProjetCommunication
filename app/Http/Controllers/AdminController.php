@@ -60,7 +60,7 @@ class AdminController extends Controller
 			});
 			$session = $sessions->last();
 			if (is_null($session))
-				return;
+				return "Pas de session terminée !";
 			foreach ($sessions as $s) {
 				$contents = $s->oeuvres()->get();
 				foreach ($contents as $c) {
@@ -95,7 +95,7 @@ class AdminController extends Controller
 			$oeuvres->sortBy('id_oeuvre');
 			$oeuvre = $oeuvres->last();
 			if (is_null($oeuvre))
-				return;
+				return "Pas d'oeuvre !";
 			foreach ($oeuvres as $o) {
 				$args[] = [
 					'id' => $o->id_oeuvre,
@@ -131,6 +131,19 @@ class AdminController extends Controller
 			return showHome();
 		}
 
+		public function deleteSession($fromDate, $toDate, $description, $oeuvres) {
+			sessions = $this->getSessions();
+			$sessions = $sessions->reject(function ($value, $key) {
+				$d = new Carbon($value->date_fin);
+				return $d->lt(Carbon::now());
+			});
+			$session = $sessions->last();
+			if (is_null($session))
+				return "Pas de session active !";
+			$session->delete();
+			return showHome();
+		}
+
 		public function setFromDate($fromDate) {
 			$sessions = $this->getSessions();
 			$sessions = $sessions->reject(function ($value, $key) {
@@ -139,7 +152,7 @@ class AdminController extends Controller
 			});
 			$session = $sessions->last();
 			if (is_null($session))
-				return;
+				return "Pas de session active !";
 			$session->date_debut = $fromDate;
 			return showHome();
 		}
@@ -152,7 +165,7 @@ class AdminController extends Controller
 			});
 			$session = $sessions->last();
 			if (is_null($session))
-				return;
+				return "Pas de session active !";
 			$session->date_fin = $toDate;
 			return showHome();
 		}
