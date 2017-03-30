@@ -1,6 +1,7 @@
 
 # Fichiers temporaires
 *~
+*.orig
 
 # Pour ne pas partager des paramètres perso
 # utilisez env pour mettre des paramètres génériques/exemples, puis
