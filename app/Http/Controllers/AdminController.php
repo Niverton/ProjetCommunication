@@ -9,7 +9,7 @@ use App\Auteur;
 use App\Oeuvre;
 use Carbon\Carbon;
 
-class ExampleController extends Controller
+class AdminController extends Controller
 {
 
 		private function getSessions() {
