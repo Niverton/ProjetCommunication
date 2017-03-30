@@ -1,3 +1,7 @@
+
+/*************************************************************/
+/* Fonts */
+
 @font-face
 {
     font-family: GlacialIndifference;
@@ -20,18 +24,34 @@
     font-style: italic;
 }
 
+
+
+/*************************************************************/
+/* Root elements */
+
+html
+{
+    height: 100%;
+}
+
 body
 {
-    margin: 10px;
-
-    /* background-color: rgb(50,50,50); */
-    /* color: white; */
-
+    margin: 0;
+    padding: 10px;
+    box-sizing: border-box;
+    
+    height: 100%;
+    
     background-color: rgb(240,240,240);
     color: rgb(50,50,50);
 
     font-family: GlacialIndifference, sans-serif;
 }
+
+
+
+/*************************************************************/
+/* Header */
 
 header
 {
@@ -76,6 +96,11 @@ header > div > h2
 
     font-weight: normal;
 }
+
+
+
+/*************************************************************/
+/* Gallery */
 
 .gallery
 {
@@ -128,6 +153,11 @@ header > div > h2
     background-color: rgba(0,0,0,0.85);
     color: white;
 }
+
+
+
+/*************************************************************/
+/* Artwork pop-up */
 
 .artwork
 {
@@ -247,4 +277,35 @@ header > div > h2
 
     font-weight: bold;
     font-size: 110%;
+}
+
+
+/*************************************************************/
+/* Split divs */
+
+.vsplit
+{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.vsplit > *
+{
+    /*overflow-y: auto;*/
+}
+
+.hsplit
+{
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+}
+.hsplit > *
+{
+    flex: 1;
+
+    overflow-y: auto;
 }

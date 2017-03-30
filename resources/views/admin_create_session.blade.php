@@ -10,7 +10,7 @@
   <body>
 
     <div class="vsplit">
-      
+    
       <header>
         <div>
           <h1>Votez pour vos œuvres favorites !</h1>
@@ -33,6 +33,12 @@
         </div>
 
         <div id="cart" class="gallery">
+          @foreach ($cartArtworks as $a)<a href="#n" style="background-image: url({{$a['image']}});" onclick="addToCart({{$a['id']}});">
+            <span>
+              <strong class="name">{{$a['name']}}</strong> 
+              <span class="author">{{$a['author']}}</span>
+            </span>
+          </a>@endforeach
         </div>
         
       </div>

@@ -9,6 +9,8 @@ use App\Auteur;
 use App\Oeuvre;
 use Carbon\Carbon;
 
+use App\Utils;
+
 class AdminController extends Controller
 {
 
@@ -110,12 +112,21 @@ class AdminController extends Controller
 
         public function createSession()
         {
+            $artworks = array_merge($this->getOeuvres(), Utils::dummyArtworks());
+            $cartArtworks = Utils::dummyArtworks();
+            for ($i = 0; $i < 3; $i++)
+            {
+                $artworks = array_merge($artworks, $artworks);
+                $cartArtworks = array_merge($cartArtworks, $cartArtworks);
+            }
+            
             $args = [
                 "sessionDescription" => "coucou",
                 "fromDate" => "",
                 "toDate" => "",
 
-                "artworks" => $this->getOeuvres()
+                "artworks" => $artworks,
+                "cartArtworks" => $cartArtworks
             ];
             
             return view("admin_create_session", $args);
