@@ -37,7 +37,7 @@ class AdminController extends Controller
 				$results[] = [
 					'oeuvreID' => $c->id_oeuvre,
 					'name' => $c->nom,
-					'author' => $c->auteur()->get()->last->nom,
+					'author' => $c->auteur()->get()->last()->nom,
 					'date' => $c->date,
 					'score' => $c->pivot->score
 				];
@@ -67,7 +67,7 @@ class AdminController extends Controller
 					$results[] = [
 						'oeuvreID' => $c->id_oeuvre,
 						'name' => $c->nom,
-						'author' => $c->auteur()->get()->last->nom,
+						'author' => $c->auteur()->get()->last()->nom,
 						'date' => $c->date,
 						'score' => $c->pivot->score
 					];
@@ -91,21 +91,33 @@ class AdminController extends Controller
 		}
 
 		public function getOeuvres() {
-			$oeuvres = Oeuvres::all();
+			$oeuvres = Oeuvre::all();
 			$oeuvres->sortBy('id_oeuvre');
 			$oeuvre = $oeuvres->last();
 			if (is_null($oeuvre))
 				return;
 			foreach ($oeuvres as $o) {
 				$args[] = [
-					'oeuvreID' => $o->id_oeuvre,
+					'id' => $o->id_oeuvre,
 					'name' => $o->nom,
-					'author' => $o->auteur()->get()->last->nom,
+					'author' => $o->auteur()->get()->last()->nom,
 					'date' => $o->date,
 					'image' => $o->url_image
 				];
 			}
-			return view("admin_create_session", $args);
+			return $args;
 		}
 
+        public function createSession()
+        {
+            $args = [
+                "sessionDescription" => "coucou",
+                "fromDate" => "",
+                "toDate" => "",
+
+                "artworks" => $this->getOeuvres()
+            ];
+            
+            return view("admin_create_session", $args);
+        }
 }

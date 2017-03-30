@@ -17,7 +17,7 @@ $app->get("/", function() use ($app) {
 <ul>
   <li> <a href="/vote">/vote</a> </li>
   <li> <a href="/vote/auteurs">/vote/auteurs</a> </li>
-  <li> <a href="/admin">/admin</a> </li>
+  <li> <a href="/admin/create">/admin/create</a> </li>
 </ul>
 ';
 });
@@ -31,8 +31,5 @@ $app->get("/vote", 'VoteController@showArtworks');
 /* Upboat */
 $app->get("/vote/upboat/{id}", 'VoteController@upvote');
 
-$app->get("/admin", function() use ($app) {
-   
-  return "Hello, world! :)";
-   
-});
+$app->get("/admin/create", "AdminController@createSession");
+

@@ -26,7 +26,7 @@
         <div class="gallery">
           @foreach ($artworks as $a)<a href="#n" style="background-image: url({{$a['image']}});" onclick="addToCart({{$a['id']}});">
             <span>
-              <strong class="name"  >{{$a['name']}}</strong> 
+              <strong class="name">{{$a['name']}}</strong> 
               <span class="author">{{$a['author']}}</span>
             </span>
           </a>@endforeach
