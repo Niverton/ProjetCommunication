@@ -29,16 +29,7 @@ $app->get("/vote/auteurs/{auteur}", 'VoteController@showAuthorsContent');
 /* Liste des oeuvres de la session active */
 $app->get("/vote", 'VoteController@showArtworks');
 /* Upboat */
-$app->post("/vote/upboat", 'VoteController@upvote');
-/* TODO REMOVE ME Spoof requète POST pour test le upboat */
-$app->get("/vote/upboat/debug", function() use ($app) {
-  return "
-  <form action='/vote/upboat' method='post'>
-    <input type='text' name='id'>
-    <button type='submit' value='balance la sauce'></button>
-  </form>
-  ";
-});
+$app->get("/vote/upboat/{id}", 'VoteController@upvote');
 
 $app->get("/admin", function() use ($app) {
    

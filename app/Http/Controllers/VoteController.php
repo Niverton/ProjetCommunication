@@ -16,7 +16,7 @@ class VoteController extends Controller
      * Returns list of active sessions ordered by ID
      */
     private function getActiveSessions() {
-        $sessions = Session::all(); 
+        $sessions = Session::all();
         //On rejète toutes les sessions inactives (celles dont la date de fin est plus petite que la date actuelle)
         $filter = $sessions->reject(function ($value, $key) {
             $d = new Carbon($value->date_fin);
@@ -77,7 +77,7 @@ class VoteController extends Controller
         if (is_null($session))
             return "Pas de session en cours !"; //TODO View
 
-        $auteur = Auteur::where('nom', urldecode($aut))->get()->last(); //Url de code remplace les %20 par des espaces par ex
+        $auteur = Auteur::where('id_auteur', urldecode($aut))->get()->last();
         if (is_null($auteur))
             return 'Auteur non trouvé dans la session.'; //TODO
 
@@ -85,10 +85,12 @@ class VoteController extends Controller
 
         $artworks = [];
         foreach ($contents as $c) {
+            $a = $c->auteur()->get()->last();
             $artworks[] = [
                 'id' => $c->id_oeuvre,
                 'name' => $c->nom,
-                'author' => $c->auteur()->get()->last()->nom,
+                'author' => $a->nom,
+                'author_id' => $a->id_auteur,
                 'date' => $c->date,
                 'description' => $c->description,
                 'image' => $c->url_image
@@ -98,6 +100,7 @@ class VoteController extends Controller
 
         //TODO Changer desc ??
         $args = [
+            'id' => $session->id,
             'sessionDescription'=> $session->description,
             'fromDate'=> $session->date_debut,
             'toDate'=> $session->date_fin,
@@ -118,14 +121,16 @@ class VoteController extends Controller
             return "Pas de session en cours !"; //TODO View
         
         //On recupère toutes les oeuvres atachées à la session
-        $contents = $session->oeuvres()->get();
+        $contents = $session->oeuvres()->withPivot('score')->orderBy('score', 'desc')->get();
         
         $artworks = [];
         foreach ($contents as $c) {
+            $a = $c->auteur()->get()->last();
             $artworks[] = [
                 'id' => $c->id_oeuvre,
                 'name' => $c->nom,
-                'author' => $c->auteur()->get()->last()->nom,
+                'author' => $a->nom,
+                'author_id' => $a->id_auteur,
                 'date' => $c->date,
                 'description' => $c->description,
                 'image' => $c->url_image
@@ -145,16 +150,14 @@ class VoteController extends Controller
 
     /*
      * Upvotes an artwork in the current active session.
-     * @param request: the HTTP request
+     * @param id: oeuvre id
      */
-    public function upvote(Request $request) {
+    public function upvote($id) {
         $sessions = $this->getActiveSessions();
         $session = $sessions->last();
         //Pas vraiment certain, à voir comment les requètes AJAX fonctionnent
         if (is_null($session))
             return;
-
-        $id = $request->input('id');
 
         $o = $session->oeuvres()->where('id_oeuvre', $id)->get()->last();
         if (is_null($o))
