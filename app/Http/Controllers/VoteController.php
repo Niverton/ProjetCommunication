@@ -12,32 +12,42 @@ use Carbon\Carbon;
 class VoteController extends Controller
 {
 
-    /**
+    /*
      * Returns list of active sessions ordered by ID
      */
-    private function getActiveSessions() {
+    private function getActiveSessions()
+		{
         $sessions = Session::all();
+
         //On rejète toutes les sessions inactives (celles dont la date de fin est plus petite que la date actuelle)
         $filter = $sessions->reject(function ($value, $key) {
             $d = new Carbon($value->date_fin);
             return $d->lte(Carbon::now());
         });
+
+        //On trie les sessions par ID
         $filter->sortBy('id_session');
         //On préchauffe les oeuvres, réduit le nombre de requêtes plus tard
         $filter->load('oeuvres');
+
         return $filter;
     }
+
+
 
     /*
      * Shows the author list view
      */
-    public function showAuthors() {
+    public function showAuthors()
+		{
         $sessions = $this->getActiveSessions();
+
         $session = $sessions->last();
         if (is_null($session))
             return "Pas de session en cours !"; //TODO View
 
-        $oeuvres = $session->oeuvres()->get(); //La liste des IDs des auteurs d'oeuvres
+				//On récupère la liste des IDs des auteurs
+        $oeuvres = $session->oeuvres()->get();
         $auteurs = [];
         foreach ($oeuvres as $o)
             $auteurs[] = $o->auteur_id_auteurs;
@@ -52,27 +62,30 @@ class VoteController extends Controller
                 'author' => "",
                 'date' => "",
                 'description' => "",
-                'image' => "" //TODO Un peu vide, trouvrer une solution ? Ajouter des images des auteurs à la BDD ?
+                'image' => "" //TODO Un peu vide, trouver une solution ? Ajouter des images des auteurs à la BDD ?
             ];
         }
 
-        //TODO temp ? Changer de vue, changer desc/titre ?
+        //TODO Temp ? Changer de vue, changer desc/titre ?
         $args = [
             'sessionDescription'=> $session->description,
             'fromDate'=> $session->date_debut,
             'toDate'=> $session->date_fin,
-
             'artworks'=> $artworks
         ];
 
         return view("vote", $args);
     }
 
+
+
     /*
      * Shows the author's artworks list view
      */
-    public function showAuthorsContent($aut) {
+    public function showAuthorsContent($aut)
+		{
         $sessions = $this->getActiveSessions();
+
         $session = $sessions->last();
         if (is_null($session))
             return "Pas de session en cours !"; //TODO View
@@ -80,7 +93,6 @@ class VoteController extends Controller
         $auteur = Auteur::where('id_auteur', urldecode($aut))->get()->last();
         if (is_null($auteur))
             return 'Auteur non trouvé dans la session.'; //TODO
-
         $contents = $session->oeuvres()->where('auteur_id_auteurs', $auteur->id_auteur)->get();
 
         $artworks = [];
@@ -96,33 +108,34 @@ class VoteController extends Controller
                 'image' => $c->url_image
             ];
         }
-        
 
-        //TODO Changer desc ??
+        //TODO Changer desc ?
         $args = [
             'id' => $session->id,
             'sessionDescription'=> $session->description,
             'fromDate'=> $session->date_debut,
             'toDate'=> $session->date_fin,
-
             'artworks'=> $artworks
         ];
 
         return view("vote", $args);
     }
 
+
+
     /*
      * Shows the artworks vue
      */
     public function showArtworks() {
         $sessions = $this->getActiveSessions();
+
         $session = $sessions->last();
         if (is_null($session))
             return "Pas de session en cours !"; //TODO View
-        
-        //On recupère toutes les oeuvres atachées à la session
+
+        //On récupère toutes les oeuvres attachées à la session
         $contents = $session->oeuvres()->withPivot('score')->orderBy('score', 'desc')->get();
-        
+
         $artworks = [];
         foreach ($contents as $c) {
             $a = $c->auteur()->get()->last();
@@ -136,24 +149,26 @@ class VoteController extends Controller
                 'image' => $c->url_image
             ];
         }
-        
+
         $args = [
             'sessionDescription'=> $session->description,
             'fromDate'=> $session->date_debut,
             'toDate'=> $session->date_fin,
-
             'artworks'=> $artworks
         ];
 
         return view("vote", $args);
     }
 
+
+
     /*
-     * Upvotes an artwork in the current active session.
+     * Upvotes an artwork in the current active session
      * @param id: oeuvre id
      */
     public function upvote($id) {
         $sessions = $this->getActiveSessions();
+
         $session = $sessions->last();
         //Pas vraiment certain, à voir comment les requètes AJAX fonctionnent
         if (is_null($session))
@@ -161,8 +176,9 @@ class VoteController extends Controller
 
         $o = $session->oeuvres()->where('id_oeuvre', $id)->get()->last();
         if (is_null($o))
-            return; //La même
-        
+            return; //Idem
+
         $session->oeuvres()->updateExistingPivot($id, ['score' => $o->pivot->score + 1]);        
     }
+
 }

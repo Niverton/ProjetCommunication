@@ -31,7 +31,7 @@
             </span>
           </a>@endforeach
         </div>
-
+        
         <div id="cart" class="gallery">
           @foreach ($cartArtworks as $a)<a href="#n" style="background-image: url({{$a['image']}});" onclick="addToCart({{$a['id']}});">
             <span>

@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
         //Session 1
             $s1 = new Session;
             $s1->description = str_random(100);
@@ -84,7 +83,7 @@ class DatabaseSeeder extends Seeder
             $s2->oeuvres()->attach($o3->id_oeuvre, [ 'score' => 0]);
             $s2->oeuvres()->attach($o4->id_oeuvre, [ 'score' => 10]);
 
-            //On rajoute aussi à la session 1 pour avoir plusieurs auteurs dans une seule session (tests affichage par auteur)
+            //On rajoute aussi à la session 1 pour avoir plusieurs auteurs dans une seule session (test affichage par auteur)
             $s1->oeuvres()->attach($o3->id_oeuvre, [ 'score' => 15]);
             $s1->oeuvres()->attach($o4->id_oeuvre, [ 'score' => 25]);
     }

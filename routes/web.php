@@ -24,12 +24,14 @@ $app->get("/", function() use ($app) {
 
 /* Liste d'auteurs de la session active */
 $app->get("/vote/auteurs", 'VoteController@showAuthors');
+
 /* Liste des oeuvres de {auteur} */
 $app->get("/vote/auteurs/{auteur}", 'VoteController@showAuthorsContent');
+
 /* Liste des oeuvres de la session active */
 $app->get("/vote", 'VoteController@showArtworks');
+
 /* Upboat */
 $app->get("/vote/upboat/{id}", 'VoteController@upvote');
 
 $app->get("/admin/create", "AdminController@createSession");
-
