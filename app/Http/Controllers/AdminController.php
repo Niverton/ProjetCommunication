@@ -148,9 +148,9 @@ class AdminController extends Controller
 			
 			$args = [];
 			foreach ($oeuvres as $o) {
-				$a = $c->auteur()->get()->last();
+				$a = $o->auteur()->get()->last();
 				$args[] = [
-					'oeuvreID' => $o->id_oeuvre,
+					'id' => $o->id_oeuvre,
 					'name' => $o->nom,
 					'authorID' => $a->id_auteur,
 					'author' => $a->nom,
