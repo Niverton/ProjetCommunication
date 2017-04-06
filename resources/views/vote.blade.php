@@ -29,9 +29,9 @@
     </div>
     
     @foreach ($artworks as $a)
-    <div class="artwork" id="artwork{{$a['id']}}">
+    <div class="modal artwork" id="artwork{{$a['id']}}">
       <a class="background" href="#n"></a>
-      <div>
+      <div class="content">
         <img alt="Photographie de l'œuvre {{$a['name']}}" src="{{$a['image']}}" />
         <div class="side">
           <div class="info">

@@ -170,7 +170,7 @@ class AdminController extends Controller
 		public function createSession()
 		{
 			$artworks = array_merge($this->getOeuvres(), Utils::dummyArtworks());
-			$cartArtworks = Utils::dummyArtworks();
+			$cartArtworks = []; //Utils::dummyArtworks();
 			
 			for ($i = 0; $i < 3; $i++) {
 				$artworks = array_merge($artworks, $artworks);
@@ -178,11 +178,13 @@ class AdminController extends Controller
 			}
 			
 			$args = [
-				"sessionDescription" => "coucou",
-				"fromDate" => "",
-				"toDate" => "",
-				"artworks" => $artworks,
-				"cartArtworks" => $cartArtworks
+				"sessionDescription" => "", // doit être vide si la session est nouvellement créé, sinon contient la description
+                
+				"fromDate"           => "", // doit être vide si la session est nouvellement créé, sinon contient la date
+				"toDate"             => "",
+                
+				"artworks"           => $artworks,
+				"cartArtworks"       => $cartArtworks
 			];
 			
 			return view("admin_create_session", $args);

@@ -156,19 +156,19 @@ header > div > h2
 
 
 /*************************************************************/
-/* Artwork pop-up */
+/* Modals */
 
-.artwork
+.modal
 {
     display: none;
 
     position: fixed;
 }
-.artwork:target
+.modal:target
 {
     display: block;
 }
-.artwork > .background
+.modal > .background
 {
     position: fixed;
     top: 0;
@@ -179,7 +179,7 @@ header > div > h2
 
     background-color: rgba(255,255,255,0.8);    
 }
-.artwork > div
+.modal > .content
 {
     position: fixed;
     top: 50%;
@@ -189,6 +189,12 @@ header > div > h2
 
     transform: translate(-50%,-50%);
 }
+
+
+
+/*************************************************************/
+/* Artwork modal */
+
 .artwork > div > img
 {
     display: inline-block;
@@ -276,6 +282,16 @@ header > div > h2
 
     font-weight: bold;
     font-size: 110%;
+}
+
+
+
+/*************************************************************/
+/* Form modal */
+
+#form
+{
+    //display: 
 }
 
 
