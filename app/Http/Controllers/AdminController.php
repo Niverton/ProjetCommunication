@@ -165,6 +165,56 @@ class AdminController extends Controller
 
 
 		/**
+			Initializes session if needed
+		**/
+		private function initSession() {
+			if (session_status() == PHP_SESSION_NONE) {
+				session_start();
+			}
+			if (!isset($_SESSION['cart'])) {
+				$_SESSION['cart'] = [];
+			}
+		}
+
+		/**
+			Adds an artwork to the stored cart
+		**/
+		public function addToCart($id) {
+			$this->initSession();
+
+			if (array_search($id, $_SESSION['cart']))
+				return false;
+			$_SESSION['cart'][] = $id;
+			return true;
+		}
+
+		/**
+			Removes an artwork from the stored cart
+		**/
+		public function removeFromCart($id) {
+			$this->initSession();
+
+			$k = array_search($id, $_SESSION['cart']);
+			if ($k)
+				unset($_SESSION['cart'][$k]);
+			return ($k) ? true : false;
+		}
+
+		public function test($data) {
+			$a = [];
+
+			$a[] = $this->addToCart(12);
+			$a[] = $this->addToCart(12);
+
+			$a[] = $this->removeFromCart(12);
+			$a[] = $this->removeFromCart(12);
+
+			var_dump($a);
+		}
+
+
+
+		/**
 			Shows informations needed to create new session
 		**/
 		public function createSession()
@@ -189,7 +239,6 @@ class AdminController extends Controller
 			
 			return view("admin_create_session", $args);
 		}
-
 
 
 		/**
