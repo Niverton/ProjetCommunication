@@ -163,11 +163,14 @@ class AdminController extends Controller
 		}
 
 
+
 		/**
-			Initialise session if needed
+			Initializes session if needed
 		**/
 		private function initSession() {
-			session_start();
+			if (session_status() == PHP_SESSION_NONE) {
+				session_start();
+			}
 			if (!isset($_SESSION['cart'])) {
 				$_SESSION['cart'] = [];
 			}
@@ -186,7 +189,7 @@ class AdminController extends Controller
 		}
 
 		/**
-			Removes an artwork from the cart
+			Removes an artwork from the stored cart
 		**/
 		public function removeFromCart($id) {
 			$this->initSession();
@@ -199,6 +202,7 @@ class AdminController extends Controller
 
 		public function test($data) {
 			$a = [];
+
 			$a[] = $this->addToCart(12);
 			$a[] = $this->addToCart(12);
 
@@ -206,8 +210,8 @@ class AdminController extends Controller
 			$a[] = $this->removeFromCart(12);
 
 			var_dump($a);
-
 		}
+
 
 
 		/**
