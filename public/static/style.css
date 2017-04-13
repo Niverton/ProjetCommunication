@@ -270,6 +270,10 @@ header > div > h2
 
     border: none;
 }
+.artwork > div > .side > button[disabled]:hover
+{
+    background: red;
+}
 .artwork > div > .side > .close
 {
     display: block;
