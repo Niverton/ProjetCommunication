@@ -4,13 +4,23 @@ function addToCart(element, id)
 {
     var cartElement = element.cloneNode(true);
     cartElement.onclick = function(){ removeFromCart(cartElement, id) };
-    
-    cart.appendChild(cartElement);
+
+    ajax("/admin/create/add_to_cart/" + id,
+         function(response) {
+             if (response === "true")
+                 cart.appendChild(cartElement);
+         },
+         function() {} );
 }
 
 function removeFromCart(element, id)
 {
-    cart.removeChild(element);
+    ajax("/admin/create/remove_from_cart/" + id,
+         function(response) {
+             if (response === "true")
+                 cart.removeChild(element);
+         },
+         function() {} );
 }
 
 function submitForm()

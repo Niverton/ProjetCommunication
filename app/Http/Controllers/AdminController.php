@@ -183,9 +183,10 @@ class AdminController extends Controller
 			$this->initSession();
 
 			if (array_search($id, $_SESSION['cart']))
-				return false;
+				return "false";
 			$_SESSION['cart'][] = $id;
-			return true;
+            
+			return "true";
 		}
 
 		/**
@@ -197,7 +198,8 @@ class AdminController extends Controller
 			$k = array_search($id, $_SESSION['cart']);
 			if ($k)
 				unset($_SESSION['cart'][$k]);
-			return ($k) ? true : false;
+            
+			return ($k) ? "true" : "false";
 		}
 
 		/**

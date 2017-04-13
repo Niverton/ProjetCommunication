@@ -1,6 +1,8 @@
 
 function ajax(url, onSuccess, onError)
 {
+    console.log("ajax(" + url + ")");
+    
     var xmlhttp = new XMLHttpRequest();
 
     xmlhttp.onreadystatechange = function()
@@ -9,10 +11,14 @@ function ajax(url, onSuccess, onError)
         {
             if (xmlhttp.status == 200)
             {
+                console.log("ajax() : onSuccess");
                 onSuccess(xmlhttp.responseText);
             }
             else
+            {
+                console.log("ajax() : onError");
                 onError();
+            }
         }
     };
 
