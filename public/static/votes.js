@@ -30,6 +30,6 @@ values.push(unJour);
 document.getElementById("votes").innerHTML = "date expiration " + values[1];
 //Vérifier la date d'expiration
 if (values[0] < new Date()) {
-    localStorage.clear();
+    localStorage.clear("votes");
 }
 }
