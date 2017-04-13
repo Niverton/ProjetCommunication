@@ -171,6 +171,19 @@ class AdminController extends Controller
 			if (session_status() == PHP_SESSION_NONE) {
 				session_start();
 			}
+
+			if (!isset($_SESSION['fromDate'])) {
+				$_SESSION['fromDate'] = NULL;
+			}
+
+			if (!isset($_SESSION['toDate'])) {
+				$_SESSION['toDate'] = NULL;
+			}
+
+			if (!isset($_SESSION['desc'])) {
+				$_SESSION['desc'] = NULL;
+			}
+
 			if (!isset($_SESSION['cart'])) {
 				$_SESSION['cart'] = [];
 			}
@@ -198,35 +211,63 @@ class AdminController extends Controller
 			$k = array_search($id, $_SESSION['cart']);
 			if ($k)
 				unset($_SESSION['cart'][$k]);
-            
 			return ($k) ? "true" : "false";
 		}
+
+		public function test($data) {
+			$a = [];
+
+			$a[] = $this->addToCart(12);
+			$a[] = $this->addToCart(12);
+
+			$a[] = $this->removeFromCart(12);
+			$a[] = $this->removeFromCart(12);
+
+			var_dump($a);
+		}
+
+
 
 		/**
 			Shows informations needed to create new session
 		**/
 		public function createSession()
 		{
-			$artworks = array_merge($this->getOeuvres(), Utils::dummyArtworks());
-			$cartArtworks = []; //Utils::dummyArtworks();
-			
-			for ($i = 0; $i < 3; $i++) {
-				$artworks = array_merge($artworks, $artworks);
-				$cartArtworks = array_merge($cartArtworks, $cartArtworks);
-			}
+			$this->initSession();
+
+			$artworks = $this->getOeuvres();
+			$cartArtworks = $_SESSION['cart']
+			$cart = array();
+
+			foreach ($artworks as $a)
+				foreach ($cartArtworks at $c)
+					if ($a['id'] == $c)
+						array_push($cart, $a);
 			
 			$args = [
-				"sessionDescription" => "", // doit être vide si la session est nouvellement créé, sinon contient la description
-                
-				"fromDate"           => "", // doit être vide si la session est nouvellement créé, sinon contient la date
-				"toDate"             => "",
-                
-				"artworks"           => $artworks,
-				"cartArtworks"       => $cartArtworks
+				"sessionDescription" => $_SESSION['desc'],
+				"fromDate" => $_SESSION['fromDate'],
+				"toDate" => $_SESSION['toDate'],
+				"artworks" => $artworks,
+				"cartArtworks" => $cart
 			];
 			
 			return view("admin_create_session", $args);
 		}
+
+
+
+		public function submitSession()
+		{
+			$this->initSession();
+			
+			$_SESSION['desc'] = $_POST['description'];
+			$_SESSION['fromDate'] = $_POST['fromDate'];
+			$_SESSION['toDate'] = $_POST['toDate'];
+			
+			return redirect("/admin/create");
+		}
+
 
 
 		/**

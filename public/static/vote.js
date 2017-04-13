@@ -27,7 +27,6 @@ var unJour = new Date();
 unJour.setHours(unJour.getHours() + 24); //temps dans le futur
 values.push(localStorage.clickcount);
 values.push(unJour);
-document.getElementById("votes").innerHTML = "date expiration " + values[1];
 //Vérifier la date d'expiration
 if (values[0] < new Date()) {
     localStorage.clear("votes");

@@ -37,4 +37,7 @@ $app->get("/vote/upvote/{id}", 'VoteController@upvote');
 $app->get("/admin/create", "AdminController@createSession");
 $app->get("/admin/create/add_to_cart/{id}", "AdminController@addToCart");
 $app->get("/admin/create/remove_from_cart/{id}", "AdminController@removeFromCart");
+$app->post("/admin/create/submit", "AdminController@submitSession");
 
+//TODO REMOVE ME
+$app->get("/test/{data}", "AdminController@test");
