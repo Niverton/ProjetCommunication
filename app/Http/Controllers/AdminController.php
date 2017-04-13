@@ -236,13 +236,11 @@ class AdminController extends Controller
 			$this->initSession();
 
 			$artworks = $this->getOeuvres();
-			$cartArtworks = $_SESSION['cart']
 			$cart = array();
 
 			foreach ($artworks as $a)
-				foreach ($cartArtworks at $c)
-					if ($a['id'] == $c)
-						array_push($cart, $a);
+                if ( array_search($a['id'], $_SESSION['cart']) )
+                    array_push($cart, $a);
 			
 			$args = [
 				"sessionDescription" => $_SESSION['desc'],

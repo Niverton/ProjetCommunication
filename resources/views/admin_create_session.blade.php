@@ -50,7 +50,7 @@
         </div>
         
         <div id="cart" class="gallery">
-          @foreach ($cartArtworks as $a)<a href="#n" style="background-image: url({{$a['image']}});" onclick="addToCart({{$a['id']}});">
+          @foreach ($cartArtworks as $a)<a href="#n" style="background-image: url({{$a['image']}});" onclick="removeFromCart(this, {{$a['id']}});">
             <span>
               <strong class="name">{{$a['name']}}</strong> 
               <span class="author">{{$a['author']}}</span>
@@ -62,19 +62,18 @@
       
     </div>
 
-    <form class="modal" id="form" onsubmit="submitForm(); return false;">
+    <form class="modal" id="form" action="/admin/create/submit" method="post">
       <div class="background"></div>
       <div class="content">
         <label for="fromDate">Session de vote ouverte du :</label> <br />
-        <input type="date" id="fromDate" name="fromDate" />
+        <input type="text" id="fromDate" name="fromDate" value="{{$fromDate}}" />
         <label for="toDate"> au </label>
-        <input type="date" id="toDate" name="toDate" />
+        <input type="text" id="toDate" name="toDate" value="{{$toDate}}" />
 
         <br />
         
         <label for="description">Description de la session de vote :</label> <br />
-        <textarea name="description" id="description">
-        </textarea>
+        <textarea name="description" id="description">{{$sessionDescription}}</textarea>
 
         <br />
 
