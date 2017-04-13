@@ -195,11 +195,13 @@ class AdminController extends Controller
 		public function addToCart($id) {
 			$this->initSession();
 
-			if (array_search($id, $_SESSION['cart']))
+			if (isset($_SESSION['cart'][$id]))
 				return "false";
-			$_SESSION['cart'][] = $id;
-            
-			return "true";
+            else
+            {
+                $_SESSION['cart'][$id] = true;
+                return "true";
+            }
 		}
 
 		/**
@@ -208,10 +210,8 @@ class AdminController extends Controller
 		public function removeFromCart($id) {
 			$this->initSession();
 
-			$k = array_search($id, $_SESSION['cart']);
-			if ($k)
-				unset($_SESSION['cart'][$k]);
-			return ($k) ? "true" : "false";
+            unset($_SESSION['cart'][$id]);
+            return "true";
 		}
 
 		public function test($data) {
@@ -239,8 +239,12 @@ class AdminController extends Controller
 			$cart = array();
 
 			foreach ($artworks as $a)
-                if ( array_search($a['id'], $_SESSION['cart']) )
+            {
+                $id = $a["id"];
+                
+                if ( isset($_SESSION['cart'][$id]) )
                     array_push($cart, $a);
+            }
 			
 			$args = [
 				"sessionDescription" => $_SESSION['desc'],

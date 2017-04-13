@@ -11,7 +11,7 @@ function ajax(url, onSuccess, onError)
         {
             if (xmlhttp.status == 200)
             {
-                console.log("ajax() : onSuccess");
+                console.log("ajax() : onSuccess(" + xmlhttp.responseText + ")");
                 onSuccess(xmlhttp.responseText);
             }
             else
