@@ -31,8 +31,8 @@ $app->get("/vote/auteurs/{auteur}", 'VoteController@showAuthorsContent');
 /* Liste des oeuvres de la session active */
 $app->get("/vote", 'VoteController@showArtworks');
 
-/* Upboat */
-$app->get("/vote/upboat/{id}", 'VoteController@upvote');
+/* Upvote */
+$app->get("/vote/upvote/{id}", 'VoteController@upvote');
 
 $app->get("/admin/create", "AdminController@createSession");
 $app->get("/admin/create/add_to_cart/{id}", "AdminController@addToCart");
