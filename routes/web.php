@@ -35,6 +35,6 @@ $app->get("/vote", 'VoteController@showArtworks');
 $app->get("/vote/upboat/{id}", 'VoteController@upvote');
 
 $app->get("/admin/create", "AdminController@createSession");
+$app->get("/admin/create/add_to_cart/{id}", "AdminController@addToCart");
+$app->get("/admin/create/remove_from_cart/{id}", "AdminController@removeFromCart");
 
-//TODO REMOVE ME
-$app->get("/test/{data}", "AdminController@test");

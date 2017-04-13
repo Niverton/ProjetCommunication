@@ -200,20 +200,6 @@ class AdminController extends Controller
 			return ($k) ? true : false;
 		}
 
-		public function test($data) {
-			$a = [];
-
-			$a[] = $this->addToCart(12);
-			$a[] = $this->addToCart(12);
-
-			$a[] = $this->removeFromCart(12);
-			$a[] = $this->removeFromCart(12);
-
-			var_dump($a);
-		}
-
-
-
 		/**
 			Shows informations needed to create new session
 		**/
