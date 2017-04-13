@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Validator;
+
 use App\Session;
 use App\Auteur;
 use App\Oeuvre;
+
 use Carbon\Carbon;
 
 class VoteController extends Controller
@@ -165,20 +168,24 @@ class VoteController extends Controller
     /*
      * Upvotes an artwork in the current active session
      * @param id: oeuvre id
+     * @return: "true" if the request went ok, "false" if there was an error
      */
     public function upvote($id) {
+        $isOK = "false"; //Code retour requète
+
         $sessions = $this->getActiveSessions();
-
         $session = $sessions->last();
-        //Pas vraiment certain, à voir comment les requètes AJAX fonctionnent
-        if (is_null($session))
-            return;
-
-        $o = $session->oeuvres()->where('id_oeuvre', $id)->get()->last();
-        if (is_null($o))
-            return; //Idem
-
-        $session->oeuvres()->updateExistingPivot($id, ['score' => $o->pivot->score + 1]);        
+        
+        
+        if (!is_null($session)) {
+            $o = $session->oeuvres()->where('id_oeuvre', $id)->get()->last();
+            if (is_null($o)) {
+                $session->oeuvres()->updateExistingPivot($id, ['score' => $o->pivot->score + 1]);  
+                $isOK = "true";
+            }
+        }
+        
+        return $isOK;
     }
 
 }
