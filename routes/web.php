@@ -36,5 +36,7 @@ $app->get("/vote/upboat/{id}", 'VoteController@upvote');
 
 $app->get("/admin/create", "AdminController@createSession");
 
+$app->post("/admin/create/submit", "AdminController@setInfo");
+
 //TODO REMOVE ME
 $app->get("/test/{data}", "AdminController@test");

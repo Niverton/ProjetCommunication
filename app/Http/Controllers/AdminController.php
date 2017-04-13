@@ -171,6 +171,19 @@ class AdminController extends Controller
 			if (session_status() == PHP_SESSION_NONE) {
 				session_start();
 			}
+
+			if (!isset($_SESSION['fromDate'])) {
+				$_SESSION['fromDate'] = NULL;
+			}
+
+			if (!isset($_SESSION['toDate'])) {
+				$_SESSION['toDate'] = NULL;
+			}
+
+			if (!isset($_SESSION['desc'])) {
+				$_SESSION['desc'] = NULL;
+			}
+
 			if (!isset($_SESSION['cart'])) {
 				$_SESSION['cart'] = [];
 			}
@@ -219,24 +232,41 @@ class AdminController extends Controller
 		**/
 		public function createSession()
 		{
-			$artworks = array_merge($this->getOeuvres(), Utils::dummyArtworks());
-			$cartArtworks = Utils::dummyArtworks();
-			
-			for ($i = 0; $i < 3; $i++) {
-				$artworks = array_merge($artworks, $artworks);
-				$cartArtworks = array_merge($cartArtworks, $cartArtworks);
-			}
+			$this->initSession();
+
+			$artworks = $this->getOeuvres();
+			$cartArtworks = $_SESSION['cart']
+			$cart = array();
+
+			foreach ($artworks as $a)
+				foreach ($cartArtworks at $c)
+					if ($a['id'] == $c)
+						array_push($cart, $a);
 			
 			$args = [
-				"sessionDescription" => "coucou",
-				"fromDate" => "",
-				"toDate" => "",
+				"sessionDescription" => $_SESSION['desc'],
+				"fromDate" => $_SESSION['fromDate'],
+				"toDate" => $_SESSION['toDate'],
 				"artworks" => $artworks,
-				"cartArtworks" => $cartArtworks
+				"cartArtworks" => $cart
 			];
 			
 			return view("admin_create_session", $args);
 		}
+
+
+
+		public function submitSession()
+		{
+			$this->initSession();
+			
+			$_SESSION['desc'] = $_POST['description'];
+			$_SESSION['fromDate'] = $_POST['fromDate'];
+			$_SESSION['toDate'] = $_POST['toDate'];
+			
+			return redirect("/admin/create");
+		}
+
 
 
 		/**
