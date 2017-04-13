@@ -84,7 +84,8 @@
         </div>
       </div>
     </form>
-    
+
+    <script src="/static/ajax.js"></script>
     <script src="/static/admin_create_session.js"></script>
     <script>init();</script>
   </body>
