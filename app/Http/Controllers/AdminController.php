@@ -312,12 +312,12 @@ class AdminController extends Controller
 			   $session->date_fin    = $toDate;
 			   $session->description = $description;
 			   
+                           $session->save();
+
 			   foreach ($cart as $id => $_) {
 			      $session->oeuvres()->attach($id, ['score' => 0]);
 			   }
-
-		           $session->save();
-			   
+                           
 			   return redirect("/"); // redirect("/path/to/admin/home");
                         }
 		}
