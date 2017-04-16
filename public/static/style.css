@@ -95,6 +95,10 @@ header > div > h2
 
     font-weight: normal;
 }
+header > .validate
+{
+    margin-left: auto;
+}
 
 
 

@@ -23,21 +23,23 @@ $app->get("/", function() use ($app) {
 });
 
 /* Liste d'auteurs de la session active */
-$app->get("/vote/auteurs", 'VoteController@showAuthors');
+$app->get ("/vote/auteurs"                      , 'VoteController@showAuthors');
 
 /* Liste des oeuvres de {auteur} */
-$app->get("/vote/auteurs/{auteur}", 'VoteController@showAuthorsContent');
+$app->get ("/vote/auteurs/{auteur}"             , 'VoteController@showAuthorsContent');
 
 /* Liste des oeuvres de la session active */
-$app->get("/vote", 'VoteController@showArtworks');
+$app->get ("/vote"                              , 'VoteController@showArtworks');
 
 /* Upvote */
-$app->get("/vote/upvote/{id}", 'VoteController@upvote');
+$app->get ("/vote/upvote/{id}"                  , 'VoteController@upvote');
 
-$app->get("/admin/create", "AdminController@createSession");
-$app->get("/admin/create/add_to_cart/{id}", "AdminController@addToCart");
-$app->get("/admin/create/remove_from_cart/{id}", "AdminController@removeFromCart");
-$app->post("/admin/create/submit", "AdminController@submitSession");
+/* Admin */
+$app->get ("/admin/create"                      , "AdminController@createSession");
+$app->get ("/admin/create/add_to_cart/{id}"     , "AdminController@addToCart");
+$app->get ("/admin/create/remove_from_cart/{id}", "AdminController@removeFromCart");
+$app->post("/admin/create/submit"               , "AdminController@submitSession");
+$app->get ("/admin/create/validate"             , "AdminController@newSession");
 
 //TODO REMOVE ME
-$app->get("/test/{data}", "AdminController@test");
+$app->get ("/test/{data}"                       , "AdminController@test");

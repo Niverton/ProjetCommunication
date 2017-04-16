@@ -35,6 +35,8 @@
                {{$sessionDescription}}
             @endif
         </a></p>
+
+        <a class="validate" href="/admin/create/validate">Valider et créer la session de vote</a>
         
       </header>
       
@@ -62,13 +64,29 @@
       
     </div>
 
+    <div class="modal error" id="invalid-dates">
+      <div class="background"></div>
+      <div class="content">
+          <strong>Dates invalides. Merci de les corriger.</strong>
+          <div class="buttons"><a href="#form">Ok</a></div>
+      </div>
+    </div>
+
+    <div class="modal error" id="empty-cart">
+        <div class="background"></div>
+        <div class="content">
+            <strong>Votre sélection d'œuvres est vide. Merci d'ajouter quelques œuvres.</strong>
+            <div class="buttons"><a href="#n">Ok</a></div>
+        </div>
+    </div>
+    
     <form class="modal" id="form" action="/admin/create/submit" method="post">
       <div class="background"></div>
       <div class="content">
         <label for="fromDate">Session de vote ouverte du :</label> <br />
-        <input type="text" id="fromDate" name="fromDate" value="{{$fromDate}}" />
+        <input type="date" id="fromDate" name="fromDate" value="{{$fromDate}}" />
         <label for="toDate"> au </label>
-        <input type="text" id="toDate" name="toDate" value="{{$toDate}}" />
+        <input type="date" id="toDate" name="toDate" value="{{$toDate}}" />
 
         <br />
         
@@ -77,7 +95,7 @@
 
         <br />
 
-        <div>
+        <div class="buttons">
           <button type="reset" onclick="cancelForm()">Annuler</button>
           <button type="submit">Valider</button>
         </div>

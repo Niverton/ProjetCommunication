@@ -125,11 +125,12 @@ class AdminController extends Controller
 		public function showHome()
 		{
 			$args = [
-				'activesession' => getActiveSession(),
-				'results' => getResults()
+				'activesession' => $this->getActiveSession(),
+				'results'       => $this->getResults()
 			];
 			
-			return view("admin", $args);
+			//return view("admin", $args);
+                        return "<h1>not implemented</h1>";
 		}
 
 
@@ -144,7 +145,7 @@ class AdminController extends Controller
 			
 			$oeuvre = $oeuvres->last();
 			if (is_null($oeuvre))
-				return "Pas d'oeuvre !";
+				return null;
 			
 			$args = [];
 			foreach ($oeuvres as $o) {
@@ -181,7 +182,7 @@ class AdminController extends Controller
 			}
 
 			if (!isset($_SESSION['desc'])) {
-				$_SESSION['desc'] = NULL;
+				$_SESSION['desc'] = "";
 			}
 
 			if (!isset($_SESSION['cart'])) {
@@ -196,12 +197,12 @@ class AdminController extends Controller
 			$this->initSession();
 
 			if (isset($_SESSION['cart'][$id]))
-				return "false";
-            else
-            {
-                $_SESSION['cart'][$id] = true;
-                return "true";
-            }
+			   return "false";
+                        else
+                        {
+                           $_SESSION['cart'][$id] = true;
+                           return "true";
+                        }
 		}
 
 		/**
@@ -210,8 +211,8 @@ class AdminController extends Controller
 		public function removeFromCart($id) {
 			$this->initSession();
 
-            unset($_SESSION['cart'][$id]);
-            return "true";
+                        unset($_SESSION['cart'][$id]);
+                        return "true";
 		}
 
 		public function test($data) {
@@ -233,25 +234,25 @@ class AdminController extends Controller
 		**/
 		public function createSession()
 		{
-			$this->initSession();
+		        $this->initSession();
 
 			$artworks = $this->getOeuvres();
 			$cart = array();
 
 			foreach ($artworks as $a)
-            {
-                $id = $a["id"];
+                        {
+                           $id = $a["id"];
                 
-                if ( isset($_SESSION['cart'][$id]) )
-                    array_push($cart, $a);
-            }
+                           if ( isset($_SESSION['cart'][$id]) )
+                              array_push($cart, $a);
+                        }
 			
 			$args = [
 				"sessionDescription" => $_SESSION['desc'],
-				"fromDate" => $_SESSION['fromDate'],
-				"toDate" => $_SESSION['toDate'],
-				"artworks" => $artworks,
-				"cartArtworks" => $cart
+				"fromDate"           => Utils::dateToRfc($_SESSION['fromDate']),
+				"toDate"             => Utils::dateToRfc($_SESSION['toDate']),
+				"artworks"           => $artworks,
+				"cartArtworks"       => $cart
 			];
 			
 			return view("admin_create_session", $args);
@@ -263,11 +264,22 @@ class AdminController extends Controller
 		{
 			$this->initSession();
 			
-			$_SESSION['desc'] = $_POST['description'];
-			$_SESSION['fromDate'] = $_POST['fromDate'];
-			$_SESSION['toDate'] = $_POST['toDate'];
-			
-			return redirect("/admin/create");
+		        $_SESSION['desc'] = trim($_POST['description']);
+
+		        $fromDate = Utils::rfcToDate($_POST['fromDate']);
+		        $toDate   = Utils::rfcToDate($_POST['toDate']);
+
+                        if ($fromDate === null || $toDate === null)
+                        {
+			   return redirect("/admin/create#invalid-dates");
+                        }
+                        else
+                        {
+		           $_SESSION['fromDate'] = $fromDate;
+ 		           $_SESSION['toDate']   = $toDate;
+                           
+			   return redirect("/admin/create");
+                        }                   
 		}
 
 
@@ -275,21 +287,39 @@ class AdminController extends Controller
 		/**
 			Creates new session; shows active session and finished sessions informations
 		**/
-		public function newSession($fromDate, $toDate, $description, $oeuvres)
-		{
-			$session = new Session;
-			
-			$session->date_debut = $fromDate;
-			$session->date_fin = $toDate;
-			$session->description = $description;
-			
-			$session->save();
-			
-			foreach ($oeuvres as $o) {
-				$session->oeuvres()->attach($o->id_oeuvre, ['score' => 0]);
-			}
-			
-			return showHome();
+		public function newSession()
+                {
+                        $this->initSession();
+
+                        $fromDate    = $_SESSION['fromDate'];
+                        $toDate      = $_SESSION['toDate'];
+                        $description = $_SESSION['desc'];
+                        $cart        = $_SESSION['cart'];
+                   
+                        if ($fromDate === null || $toDate === null)
+                        {
+                           return redirect("/admin/create#invalid-dates");
+                        }
+                        else if (empty($cart))
+                        {
+                           return redirect("/admin/create#empty-cart");
+                        }
+                        else
+                        {
+			   $session = new Session;
+			   
+			   $session->date_debut  = $fromDate;
+			   $session->date_fin    = $toDate;
+			   $session->description = $description;
+			   
+			   foreach ($cart as $id => $_) {
+			      $session->oeuvres()->attach($id, ['score' => 0]);
+			   }
+
+		           $session->save();
+			   
+			   return redirect("/"); // redirect("/path/to/admin/home");
+                        }
 		}
 
 
