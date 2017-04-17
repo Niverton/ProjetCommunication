@@ -35,8 +35,10 @@
                {{$sessionDescription}}
             @endif
         </a></p>
-
-        <a class="validate" href="/admin/create/validate">Valider et créer la session de vote</a>
+        
+        <span class="validate">
+            <a class="ok button" href="/admin/create/validate">Valider et créer la session de vote</a>
+        </span>
         
       </header>
       
@@ -68,7 +70,7 @@
       <div class="background"></div>
       <div class="content">
           <strong>Dates invalides. Merci de les corriger.</strong>
-          <div class="buttons"><a href="#form">Ok</a></div>
+          <div class="buttons"><a class="ok button" href="#form">Ok</a></div>
       </div>
     </div>
 
@@ -76,7 +78,7 @@
         <div class="background"></div>
         <div class="content">
             <strong>Votre sélection d'œuvres est vide. Merci d'ajouter quelques œuvres.</strong>
-            <div class="buttons"><a href="#n">Ok</a></div>
+            <div class="buttons"><a class="ok button" href="#n">Ok</a></div>
         </div>
     </div>
     
@@ -84,10 +86,11 @@
       <div class="background"></div>
       <div class="content">
         <label for="fromDate">Session de vote ouverte du :</label> <br />
-        <input type="date" id="fromDate" name="fromDate" value="{{$fromDate}}" />
+        <input type="date" id="fromDate" name="fromDate" value="{{$fromDate}}" placeholder="aaaa-mm-jj" />
         <label for="toDate"> au </label>
-        <input type="date" id="toDate" name="toDate" value="{{$toDate}}" />
+        <input type="date" id="toDate" name="toDate" value="{{$toDate}}" placeholder="aaaa-mm-jj" />
 
+        <br />
         <br />
         
         <label for="description">Description de la session de vote :</label> <br />
@@ -96,8 +99,8 @@
         <br />
 
         <div class="buttons">
-          <button type="reset" onclick="cancelForm()">Annuler</button>
-          <button type="submit">Valider</button>
+            <button class="cancel button" type="reset" onclick="cancelForm()">Annuler</button>
+            <button class="ok button" type="submit">Valider</button>
         </div>
       </div>
     </form>

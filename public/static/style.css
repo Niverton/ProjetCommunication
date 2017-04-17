@@ -26,6 +26,56 @@
 
 
 /*************************************************************/
+/* Misc */
+a
+{
+}
+
+
+
+/*************************************************************/
+/* Buttons */
+.button
+{
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 110%;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    padding: 5px 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+.button.ok
+{
+    background-color: rgba(37,116,169, 0.9);
+    color: white;
+}
+.button.cancel
+{
+    background-color: rgba(255,255,255, 0.9);
+    color: rgb(50,50,50);
+}
+.button[disabled]
+{
+    color: rgba(255,255,255,0.7);
+    font-style: italic;
+    background-color: rgb(220,0,0);
+}
+.button.ok:hover:not([disabled])
+{
+    color: white;
+    background-color: rgb(0,200,0);
+}
+.button.cancel:hover:not([disabled])
+{
+    color: white;
+    background-color: rgb(110,110,110);
+}
+
+
+
+/*************************************************************/
 /* Root elements */
 
 html
@@ -99,7 +149,33 @@ header > .validate
 {
     margin-left: auto;
 }
-
+header a
+{
+    display: inline-block;
+    color: inherit;
+    border: 1px dashed rgb(160,160,160);
+    
+    text-decoration: none;
+    padding: 0 5px;
+}
+header a:hover
+{
+    border-style: solid;
+}
+header > .validate
+{
+    margin-left: auto;
+}
+header > .validate > a
+{
+    display: inline-block;
+    min-width: 10em;
+    margin-left: 20px;
+}
+header > .validate > a:hover
+{
+    border: none;
+}
 
 
 /*************************************************************/
@@ -181,7 +257,7 @@ header > .validate
     width: 100%;
     height: 100%;
 
-    background-color: rgba(255,255,255,0.8);    
+    background-color: rgba(255,255,255,0.95);    
 }
 .modal > .content
 {
@@ -193,7 +269,29 @@ header > .validate
 
     transform: translate(-50%,-50%);
 }
+.modal .buttons
+{
+    text-align: center;
+}
+.modal .buttons > *
+{
+    display: inline-block;
+    margin: 10px;
+}
 
+
+/*************************************************************/
+/* Error modal */
+
+.modal.error .content strong
+{
+    display: block;
+    color: rgb(220,0,0);
+    font-size: 120%;
+    border: 1px solid;
+    padding: 10px;
+    text-align: center;
+}
 
 
 /*************************************************************/
@@ -263,43 +361,32 @@ header > .validate
 {
     margin-top: 15px;
 }
-.artwork > div > .side > button
-{
-    background-color: rgba(37,116,169, 0.9);
-    color: white;
-
-    font-family: inherit;
-    font-weight: bold;
-    font-size: 110%;
-
-    border: none;
-}
-.artwork > div > .side > button[disabled]:hover
-{
-    background: red;
-}
-.artwork > div > .side > .close
+.artwork > div > .side > .cancel.button
 {
     display: block;
-
-    background-color: rgba(255,255,255, 0.9);
-    color: rgb(50,50,50);
-
-    text-align: center;
-    text-decoration: none;
-
-    font-weight: bold;
-    font-size: 110%;
 }
 
 
 
 /*************************************************************/
-/* Form modal */
+/* Form */
 
-#form
+label
 {
-    //display: 
+    font-weight: bold;
+}
+input, textarea
+{
+    font-family: inherit;
+    font-size: 100%;
+    border: 1px solid rgb(200,200,200);
+    padding: 5px;
+    background-color: transparent;
+}
+textarea
+{
+    width: 100%;
+    min-height: 9em;
 }
 
 

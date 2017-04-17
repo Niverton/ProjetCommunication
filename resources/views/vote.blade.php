@@ -30,7 +30,7 @@
     
     @foreach ($artworks as $a)
     <div class="modal artwork" id="artwork{{$a['id']}}">
-      <a class="background" href="#n"></a>
+      <div class="background"></div>
       <div class="content">
         <img alt="Photographie de l'œuvre {{$a['name']}}" src="{{$a['image']}}" />
         <div class="side">
@@ -39,9 +39,8 @@
             <div><span class="author">{{$a['author']}}</span> <time>{{$a['date']}}</time></div>
             <p class="description">{{$a['description']}}</p>
           </div>
-          <button id="button{{$a['id']}}" onclick="voteCounter(this.id)">Voter pour cette œuvre</button>
-          <div id="votes"></div>
-          <a class="close" href="#n">Retour à la galerie</a>
+          <button class="ok button" id="button{{$a['id']}}" onclick="voteCounter(this.id)">Voter pour cette œuvre</button>
+          <a class="cancel button" href="#n">Retour à la galerie</a>
         </div>
       </div>
     </div>

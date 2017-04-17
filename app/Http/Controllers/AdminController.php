@@ -318,6 +318,7 @@ class AdminController extends Controller
 			      $session->oeuvres()->attach($id, ['score' => 0]);
 			   }
                            
+                           session_destroy();
 			   return redirect("/"); // redirect("/path/to/admin/home");
                         }
 		}
