@@ -60,7 +60,8 @@ a
 {
     color: rgba(255,255,255,0.7);
     font-style: italic;
-    background-color: rgb(220,0,0);
+    font-weight: normal;
+    background-color: rgb(0,0,0);
 }
 .button.ok:hover:not([disabled])
 {
@@ -86,7 +87,7 @@ html
 body
 {
     margin: 0;
-    padding: 10px;
+    padding: 0.66%;
     box-sizing: border-box;
     
     height: 100%;
@@ -104,10 +105,11 @@ body
 
 header
 {
+    flex-shrink: 0;
     display: flex;
 
-    padding: 0.33%;
-    margin: 0;
+    /*padding: 0.33%;*/
+    margin: 0 0 0.66% 0;
 }
 header > div
 {
@@ -145,10 +147,12 @@ header > div > h2
 
     font-weight: normal;
 }
-header > .validate
-{
-    margin-left: auto;
-}
+
+
+
+/*************************************************************/
+/* Admin create session header */
+
 header a
 {
     display: inline-block;
@@ -178,11 +182,13 @@ header > .validate > a:hover
 }
 
 
+
 /*************************************************************/
 /* Gallery */
 
 .gallery
 {
+    margin: -0.33%;
 }
 .gallery > a
 {
@@ -229,8 +235,68 @@ header > .validate > a:hover
 }
 .gallery > a:hover > span
 {
-    background-color: rgba(0,0,0,0.85);
+    background-color: rgba(0,0,0,0.9);
     color: white;
+}
+
+
+
+/*************************************************************/
+/* Small & scroll gallery */
+.gallery.small
+{
+    margin: 0;
+}
+.gallery.small > a > span
+{
+    font-size: 80%;
+}
+.gallery.small > a > span > *
+{
+    margin: 10px;
+}
+.gallery.scroll
+{
+    overflow-y: auto;
+}
+
+
+/*************************************************************/
+/* Admin create session */
+.admin.create .hsplit h4
+{
+    margin: 0 0 3px 0;
+}
+.admin.create .hsplit h5
+{
+    margin: 0 0 10px 0;
+    font-weight: normal;
+}
+.admin.create .hsplit > *
+{
+    display: flex;
+    flex-direction: column;
+}
+.admin.create .hsplit > :first-child
+{
+    margin-right: 8px;
+}
+.admin.create .hsplit > :last-child
+{
+    margin-left: 8px;
+}
+.admin.create .hsplit > * > .gallery
+{
+    flex: 1;
+    padding: 8px;
+}
+.admin.create .hsplit > :first-child > .gallery
+{
+    border: 1px solid rgb(160,160,160);
+}
+.admin.create .hsplit > :last-child > .gallery
+{
+    border: 1px dashed rgb(160,160,160);
 }
 
 
@@ -398,13 +464,12 @@ textarea
 {
     height: 100%;
     width: 100%;
-    overflow: hidden;
+    /*overflow: hidden;*/
     display: flex;
     flex-direction: column;
 }
 .vsplit > *
 {
-    /*overflow-y: auto;*/
 }
 
 .hsplit
@@ -417,6 +482,4 @@ textarea
 .hsplit > *
 {
     flex: 1;
-
-    overflow-y: auto;
 }

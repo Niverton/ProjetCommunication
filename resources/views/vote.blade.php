@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <title>Votez pour vos œuvres favorites - Musée des beaux-arts de Bordeaux</title>
     <link rel="stylesheet" href="/static/style.css">
-    <script src="script.js"></script>
   </head>
   
   <body>
@@ -39,14 +38,22 @@
             <div><span class="author">{{$a['author']}}</span> <time>{{$a['date']}}</time></div>
             <p class="description">{{$a['description']}}</p>
           </div>
-          <button class="ok button" id="button{{$a['id']}}" onclick="voteCounter(this.id)">Voter pour cette œuvre</button>
+          <button class="ok button upvote" id="upvote{{$a['id']}}" onclick="upvote(this, {{$a['id']}})">Voter pour cette œuvre</button>
           <a class="cancel button" href="#n">Retour à la galerie</a>
         </div>
       </div>
     </div>
-    @endforeach  
-    <script type="text/javascript" src="/static/vote.js"></script>
-    
+    @endforeach
+
+
+    <script src="/static/ajax.js"></script>
+    <script src="/static/vote.js"></script>
+    <script>
+     var SESSION_ID      = {{$sessionId}};
+     var DISABLED_UPVOTE = "Vous avez voté pour cette œuvre";
+     
+     init();
+    </script>
   </body>
 
 </html>

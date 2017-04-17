@@ -154,6 +154,7 @@ class VoteController extends Controller
         }
 
         $args = [
+            'sessionId' => $session->id_session,
             'sessionDescription'=> $session->description,
             'fromDate'=> $session->date_debut,
             'toDate'=> $session->date_fin,
@@ -179,7 +180,7 @@ class VoteController extends Controller
         
         if (!is_null($session)) {
             $o = $session->oeuvres()->where('id_oeuvre', $id)->get()->last();
-            if (is_null($o)) {
+            if (!is_null($o)) {
                 $session->oeuvres()->updateExistingPivot($id, ['score' => $o->pivot->score + 1]);  
                 $isOK = "true";
             }
