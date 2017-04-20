@@ -16,30 +16,36 @@ $app->get("/", function() use ($app) {
 <h1>Coucou !</h1>
 <ul>
   <li> <a href="/vote">/vote</a> </li>
-  <li> <a href="/vote/auteurs">/vote/auteurs</a> </li>
-  <li> <a href="/admin/create">/admin/create</a> </li>
+  <li> <a href="/admin">/admin</a> </li>
 </ul>
 ';
 });
 
-/* Liste d'auteurs de la session active */
-$app->get ("/vote/auteurs"                      , 'VoteController@showAuthors');
+/* [VIEW] Liste d'auteurs de la session active */
+//$app->get ("/vote/auteurs"                      , 'VoteController@showAuthors');
 
-/* Liste des oeuvres de {auteur} */
-$app->get ("/vote/auteurs/{auteur}"             , 'VoteController@showAuthorsContent');
+/* [VIEW] Liste des oeuvres de {auteur} */
+//$app->get ("/vote/auteurs/{auteur}"             , 'VoteController@showAuthorsContent');
 
-/* Liste des oeuvres de la session active */
+/* [VIEW] Liste des oeuvres de la session active */
 $app->get ("/vote"                              , 'VoteController@showArtworks');
 
-/* Upvote */
+/* [AJAX] Upvote */
 $app->get ("/vote/upvote/{id}"                  , 'VoteController@upvote');
 
-/* Admin */
+/* [VIEW] Admin */
+$app->get ("/admin"                             , "AdminController@home");
+$app->get ("/admin/close"                       , "AdminController@close");
+$app->get ("/admin/results/{sessionId}"         , "AdminController@results");
 $app->get ("/admin/create"                      , "AdminController@createSession");
+
+/* [AJAX] Admin */
 $app->get ("/admin/create/add_to_cart/{id}"     , "AdminController@addToCart");
 $app->get ("/admin/create/remove_from_cart/{id}", "AdminController@removeFromCart");
+
+/* [REDIRECT] Admin */
 $app->post("/admin/create/submit"               , "AdminController@submitSession");
 $app->get ("/admin/create/validate"             , "AdminController@newSession");
 
 //TODO REMOVE ME
-$app->get ("/test/{data}"                       , "AdminController@test");
+//$app->get ("/test/{data}"                       , "AdminController@test");

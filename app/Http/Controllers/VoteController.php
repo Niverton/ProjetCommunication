@@ -42,12 +42,12 @@ class VoteController extends Controller
      * Shows the author list view
      */
     public function showAuthors()
-		{
+    {
         $sessions = $this->getActiveSessions();
 
         $session = $sessions->last();
         if (is_null($session))
-            return "Pas de session en cours !"; //TODO View
+            return view("vote_no_session");
 
 				//On récupère la liste des IDs des auteurs
         $oeuvres = $session->oeuvres()->get();
@@ -91,7 +91,7 @@ class VoteController extends Controller
 
         $session = $sessions->last();
         if (is_null($session))
-            return "Pas de session en cours !"; //TODO View
+           return view("vote_no_session");
 
         $auteur = Auteur::where('id_auteur', urldecode($aut))->get()->last();
         if (is_null($auteur))
@@ -127,14 +127,14 @@ class VoteController extends Controller
 
 
     /*
-     * Shows the artworks vue
+     * Shows the artworks view
      */
     public function showArtworks() {
         $sessions = $this->getActiveSessions();
 
         $session = $sessions->last();
         if (is_null($session))
-            return "Pas de session en cours !"; //TODO View
+           return view("vote_no_session");
 
         //On récupère toutes les oeuvres attachées à la session
         $contents = $session->oeuvres()->withPivot('score')->orderBy('score', 'desc')->get();

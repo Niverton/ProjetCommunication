@@ -259,7 +259,78 @@ class AdminController extends Controller
 		}
 
 
+                public function home()
+                {
+                   $active = [
+                      "fromDate" => "2017-04-20",
+                      "toDate"   => "2017-04-30",
+                      "id"       => 10 // id de la session
+                   ];
 
+                   // historique des sessions de vote terminés (sans la session en cours)
+                   // dans l'ordre : de la plus récente à la plus anciennne
+                   $history = [
+                      [ "fromDate" => "2017-04-20", "toDate" => "2017-04-30", "id" => 9 ],
+                      [ "fromDate" => "2016-04-20", "toDate" => "2016-04-30", "id" => 8 ],
+                      [ "fromDate" => "2015-04-20", "toDate" => "2015-04-30", "id" => 7 ],
+                      [ "fromDate" => "2014-04-20", "toDate" => "2014-04-30", "id" => 6 ],
+                      [ "fromDate" => "2013-04-20", "toDate" => "2013-04-30", "id" => 5 ],
+                   ];
+
+                   // ( $active  == null ) si aucune session de vote en cours
+                   // ( $history == []   ) si historique vide
+
+                   $args = [
+                      "active"  => $active,
+                      "history" => $history
+                   ];
+
+                   return view("admin_home", $args);
+                }
+
+                public function close()
+                {
+                   /* TODO: fermer la session active */
+
+                   return redirect("/admin");
+                }
+   
+                public function results($sessionId)
+                {
+                   $artworks = [
+                      [
+                         "votes" => 14,
+                         "id" => 0,
+                         "name" => "La Joconde",
+                         "author" => "Léonard de Vinci",
+                         "author_id" => 0,
+                         "date" => "1940",
+                         "description" => "Un magnifique tableau sur toile de léonard.",
+                         "image" => "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg/260px-Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg"
+                      ],
+
+                      [
+                         "votes" => 86,
+                         "id" => 1,
+                         "name" => "Autoportrait",
+                         "author" => "Vincent Van Gogh",
+                         "author_id" => 2,
+                         "date" => "1889",
+                         "description" => "Un magnifique tableau sur toile de notre amis à l'oreille coupé.",
+                         "image" => "http://media.topito.com/wp-content/uploads/2012/03/Tableaux019.jpg"
+                      ]
+                   ];
+                   
+                   $args = [
+                      "sessionDescription" => "Exposition de peintures.",
+                      "fromDate"           => "2017-04-20",
+                      "toDate"             => "2017-04-30",
+                      "artworks"           => $artworks
+                   ];
+                   
+                   return view("admin_results", $args);
+                }
+   
 		public function submitSession()
 		{
 			$this->initSession();
