@@ -30,7 +30,7 @@
                 
                 <p><a href="#form">
                     @if (empty($sessionDescription))
-                        Cliquez ici pour personaliser la description de la session de vote.
+                        Cliquez ici pour personnaliser la description de la session de vote.
                     @else
                         {{$sessionDescription}}
                     @endif
