@@ -12,13 +12,13 @@
  */
 
 $app->get("/", function() use ($app) {
-   return '
-<h1>Coucou !</h1>
-<ul>
-  <li> <a href="/vote">/vote</a> </li>
-  <li> <a href="/admin">/admin</a> </li>
-</ul>
-';
+	return '
+		<h1>Coucou !</h1>
+		<ul>
+			<li> <a href="/vote">/vote</a> </li>
+			<li> <a href="/admin">/admin</a> </li>
+		</ul>
+	';
 });
 
 /* [VIEW] Liste d'auteurs de la session active */

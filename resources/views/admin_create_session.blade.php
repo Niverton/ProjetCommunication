@@ -46,7 +46,7 @@
 
                 <div>
                     <h4>Toutes les œuvres</h4>
-                    <h5>Sélectionnez les œuvres à ajouter.</h5>
+                    <h5>Cliquez sur les œuvres à ajouter à la sélection.</h5>
                     <div class="small scroll gallery">
                         @foreach ($artworks as $a)<a href="#n" style="background-image: url({{$a['image']}});" onclick="addToCart(this, {{$a['id']}});">
                             <span>

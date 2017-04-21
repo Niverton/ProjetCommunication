@@ -31,7 +31,7 @@ class AdminController extends Controller
 		/**
 			Returns active session informations with artworks ordered by score
 		**/
-		private function getActiveSession()
+		/*private function getActiveSession()
 		{
 			$sessions = $this->getSessions();
 			
@@ -71,14 +71,14 @@ class AdminController extends Controller
 			];
 			
 			return $activesession;
-		}
+		}*/
 
 
 
 		/**
-			Returns finished sessions informations with artworks ordered by score (= results)
+			Returns finished sessions informations with artworks ordered by score
 		**/
-		private function getResults()
+		/*private function getResults()
 		{
 			$sessions = $this->getSessions();
 			
@@ -89,7 +89,7 @@ class AdminController extends Controller
 			
 			$session = $sessions->last();
 			if (is_null($session))
-				return "Pas de session terminée !";
+				return null;
 			
 			$allsessions = [];
 			foreach ($sessions as $s) {
@@ -115,23 +115,22 @@ class AdminController extends Controller
 			}
 			
 			return $allsessions;
-		}
+		}*/
 
 
 
 		/**
 			Shows active session and finished sessions informations
 		**/
-		public function showHome()
+		/*public function showHome()
 		{
 			$args = [
 				'activesession' => $this->getActiveSession(),
-				'results'       => $this->getResults()
+				'results' => $this->getResults()
 			];
 			
-			//return view("admin", $args);
-                        return "<h1>not implemented</h1>";
-		}
+			return view("admin", $args);
+		}*/
 
 
 
@@ -168,189 +167,212 @@ class AdminController extends Controller
 		/**
 			Initializes session if needed
 		**/
-		private function initSession() {
+		private function initSession()
+		{
 			if (session_status() == PHP_SESSION_NONE) {
 				session_start();
 			}
-
+			
 			if (!isset($_SESSION['fromDate'])) {
 				$_SESSION['fromDate'] = NULL;
 			}
-
+			
 			if (!isset($_SESSION['toDate'])) {
 				$_SESSION['toDate'] = NULL;
 			}
-
+			
 			if (!isset($_SESSION['desc'])) {
 				$_SESSION['desc'] = "";
 			}
-
+			
 			if (!isset($_SESSION['cart'])) {
 				$_SESSION['cart'] = [];
 			}
 		}
 
+
+
 		/**
 			Adds an artwork to the stored cart
 		**/
-		public function addToCart($id) {
+		public function addToCart($id)
+		{
 			$this->initSession();
-
+			
 			if (isset($_SESSION['cart'][$id]))
-			   return "false";
-                        else
-                        {
-                           $_SESSION['cart'][$id] = true;
-                           return "true";
-                        }
+				return "false";
+			else {
+				$_SESSION['cart'][$id] = true;
+				return "true";
+			}
 		}
+
+
 
 		/**
 			Removes an artwork from the stored cart
 		**/
-		public function removeFromCart($id) {
+		public function removeFromCart($id)
+		{
 			$this->initSession();
-
-                        unset($_SESSION['cart'][$id]);
-                        return "true";
-		}
-
-		public function test($data) {
-			$a = [];
-
-			$a[] = $this->addToCart(12);
-			$a[] = $this->addToCart(12);
-
-			$a[] = $this->removeFromCart(12);
-			$a[] = $this->removeFromCart(12);
-
-			var_dump($a);
+			
+			unset($_SESSION['cart'][$id]);
+			return "true";
 		}
 
 
 
 		/**
-			Shows informations needed to create new session
+			Shows informations needed to create a new session
 		**/
 		public function createSession()
 		{
-		        $this->initSession();
-
+			$this->initSession();
+			
 			$artworks = $this->getOeuvres();
 			$cart = array();
-
-			foreach ($artworks as $a)
-                        {
-                           $id = $a["id"];
-                
-                           if ( isset($_SESSION['cart'][$id]) )
-                              array_push($cart, $a);
-                        }
+			
+			foreach ($artworks as $a) {
+				$id = $a["id"];    
+				if (isset($_SESSION['cart'][$id]))
+					array_push($cart, $a);
+			}
 			
 			$args = [
 				"sessionDescription" => $_SESSION['desc'],
-				"fromDate"           => Utils::dateToRfc($_SESSION['fromDate']),
-				"toDate"             => Utils::dateToRfc($_SESSION['toDate']),
-				"artworks"           => $artworks,
-				"cartArtworks"       => $cart
+				"fromDate" => Utils::dateToRfc($_SESSION['fromDate']),
+				"toDate" => Utils::dateToRfc($_SESSION['toDate']),
+				"artworks" => $artworks,
+				"cartArtworks" => $cart
 			];
 			
 			return view("admin_create_session", $args);
 		}
 
 
-                public function home()
-                {
-                   $active = [
-                      "fromDate" => "2017-04-20",
-                      "toDate"   => "2017-04-30",
-                      "id"       => 10 // id de la session
-                   ];
 
-                   // historique des sessions de vote terminés (sans la session en cours)
-                   // dans l'ordre : de la plus récente à la plus anciennne
-                   $history = [
-                      [ "fromDate" => "2017-04-20", "toDate" => "2017-04-30", "id" => 9 ],
-                      [ "fromDate" => "2016-04-20", "toDate" => "2016-04-30", "id" => 8 ],
-                      [ "fromDate" => "2015-04-20", "toDate" => "2015-04-30", "id" => 7 ],
-                      [ "fromDate" => "2014-04-20", "toDate" => "2014-04-30", "id" => 6 ],
-                      [ "fromDate" => "2013-04-20", "toDate" => "2013-04-30", "id" => 5 ],
-                   ];
+		public function home()
+		{
+			$sessions = $this->getSessions();
+			
+			$sessions = $sessions->reject(function ($value, $key) {
+				$d = new Carbon($value->date_fin);
+				return $d->lt(Carbon::now());
+			});
+			
+			$session = $sessions->last();
+			if (is_null($session))
+				$active = null;
+			else
+				$active = [
+					"fromDate" => $session->date_debut,
+					"toDate" => $session->date_fin,
+					"id" => $session->id_session
+				];
+			
+			$sessions = $this->getSessions();
+			
+			$sessions = $sessions->reject(function ($value, $key) {
+				$d = new Carbon($value->date_fin);
+				return $d->gte(Carbon::now());
+			});
+			
+			$history = [];
+			$session = $sessions->last();
+			if (!is_null($session))
+				foreach ($sessions as $s)
+					$history[] = [
+						'fromDate' => $s->date_debut,
+						'toDate' => $s->date_fin,
+						'id' => $s->id_session
+					];
+			
+			$args = [
+				"active"  => $active,
+				"history" => $history
+			];
 
-                   // ( $active  == null ) si aucune session de vote en cours
-                   // ( $history == []   ) si historique vide
+			return view("admin_home", $args);
+		}
 
-                   $args = [
-                      "active"  => $active,
-                      "history" => $history
-                   ];
 
-                   return view("admin_home", $args);
-                }
 
-                public function close()
-                {
-                   /* TODO: fermer la session active */
+		public function close()
+		{
+			$sessions = $this->getSessions();
+			
+			$sessions = $sessions->reject(function ($value, $key) {
+				$d = new Carbon($value->date_fin);
+				return $d->lt(Carbon::now());
+			});
+			
+			$session = $sessions->last();
+			if (is_null($session))
+				return "Pas de session active !";
+			
+			$session->oeuvres()->delete();
+			
+			$session->delete();
 
-                   return redirect("/admin");
-                }
-   
-                public function results($sessionId)
-                {
-                   $artworks = [
-                      [
-                         "votes" => 14,
-                         "id" => 0,
-                         "name" => "La Joconde",
-                         "author" => "Léonard de Vinci",
-                         "author_id" => 0,
-                         "date" => "1940",
-                         "description" => "Un magnifique tableau sur toile de léonard.",
-                         "image" => "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg/260px-Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg"
-                      ],
+			return redirect("/admin");
+		}
 
-                      [
-                         "votes" => 86,
-                         "id" => 1,
-                         "name" => "Autoportrait",
-                         "author" => "Vincent Van Gogh",
-                         "author_id" => 2,
-                         "date" => "1889",
-                         "description" => "Un magnifique tableau sur toile de notre amis à l'oreille coupé.",
-                         "image" => "http://media.topito.com/wp-content/uploads/2012/03/Tableaux019.jpg"
-                      ]
-                   ];
+
+
+		public function results($sessionID)
+		{
+			$artworks = [
+				[
+					"votes" => 14,
+					"id" => 0,
+					"name" => "La Joconde",
+					"author" => "Léonard de Vinci",
+					"author_id" => 0,
+					"date" => "1940",
+					"description" => "Un magnifique tableau sur toile de léonard.",
+					"image" => "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg/260px-Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg"
+				],
+
+				[
+					"votes" => 86,
+					"id" => 1,
+					"name" => "Autoportrait",
+					"author" => "Vincent Van Gogh",
+					"author_id" => 2,
+					"date" => "1889",
+					"description" => "Un magnifique tableau sur toile de notre amis à l'oreille coupé.",
+					"image" => "http://media.topito.com/wp-content/uploads/2012/03/Tableaux019.jpg"
+				]
+			];
                    
-                   $args = [
-                      "sessionDescription" => "Exposition de peintures.",
-                      "fromDate"           => "2017-04-20",
-                      "toDate"             => "2017-04-30",
-                      "artworks"           => $artworks
-                   ];
+			$args = [
+				"sessionDescription" => "Exposition de peintures.",
+				"fromDate" => "2017-04-20",
+				"toDate" => "2017-04-30",
+				"artworks" => $artworks
+			];
                    
-                   return view("admin_results", $args);
-                }
-   
+			return view("admin_results", $args);
+		}
+
+
+
 		public function submitSession()
 		{
 			$this->initSession();
 			
-		        $_SESSION['desc'] = trim($_POST['description']);
+			$_SESSION['desc'] = trim($_POST['description']);
 
-		        $fromDate = Utils::rfcToDate($_POST['fromDate']);
-		        $toDate   = Utils::rfcToDate($_POST['toDate']);
+			$fromDate = Utils::rfcToDate($_POST['fromDate']);
+			$toDate = Utils::rfcToDate($_POST['toDate']);
 
-                        if ($fromDate === null || $toDate === null)
-                        {
-			   return redirect("/admin/create#invalid-dates");
-                        }
-                        else
-                        {
-		           $_SESSION['fromDate'] = $fromDate;
- 		           $_SESSION['toDate']   = $toDate;
-                           
-			   return redirect("/admin/create");
-                        }                   
+			if ($fromDate === null || $toDate === null)
+				return redirect("/admin/create#invalid-dates");
+			else {
+				$_SESSION['fromDate'] = $fromDate;
+				$_SESSION['toDate'] = $toDate;               
+				return redirect("/admin/create");
+			}                   
 		}
 
 
@@ -359,39 +381,41 @@ class AdminController extends Controller
 			Creates new session; shows active session and finished sessions informations
 		**/
 		public function newSession()
-                {
-                        $this->initSession();
+		{
+			$this->initSession();
 
-                        $fromDate    = $_SESSION['fromDate'];
-                        $toDate      = $_SESSION['toDate'];
-                        $description = $_SESSION['desc'];
-                        $cart        = $_SESSION['cart'];
-                   
-                        if ($fromDate === null || $toDate === null)
-                        {
-                           return redirect("/admin/create#invalid-dates");
-                        }
-                        else if (empty($cart))
-                        {
-                           return redirect("/admin/create#empty-cart");
-                        }
-                        else
-                        {
-			   $session = new Session;
-			   
-			   $session->date_debut  = $fromDate;
-			   $session->date_fin    = $toDate;
-			   $session->description = $description;
-			   
-                           $session->save();
+			$fromDate = $_SESSION['fromDate'];
+			$toDate = $_SESSION['toDate'];
+			$description = $_SESSION['desc'];
+			$cart = $_SESSION['cart'];
 
-			   foreach ($cart as $id => $_) {
-			      $session->oeuvres()->attach($id, ['score' => 0]);
-			   }
+			$from = new Carbon($fromDate);
+			if ($from->lt(Carbon::now()))
+				return redirect("/admin/create#invalid-dates");
+
+			$to = new Carbon($toDate);
+			if ($to->lte($from))
+				return redirect("/admin/create#invalid-dates");
+
+			if ($fromDate === null || $toDate === null)
+				return redirect("/admin/create#invalid-dates");
+			else if (empty($cart))
+				return redirect("/admin/create#empty-cart");
+			else {
+				$session = new Session;
+			   
+				$session->date_debut = $fromDate;
+				$session->date_fin = $toDate;
+				$session->description = $description;
+			   
+				$session->save();
+
+				foreach ($cart as $id => $_)
+					$session->oeuvres()->attach($id, ['score' => 0]);
                            
-                           session_destroy();
-			   return redirect("/"); // redirect("/path/to/admin/home");
-                        }
+				session_destroy();
+				return redirect("/"); //redirect("/path/to/admin/home");
+			}
 		}
 
 
@@ -399,7 +423,7 @@ class AdminController extends Controller
 		/**
 			Deletes active session; shows active session and finished sessions informations
 		**/
-		public function deleteSession()
+		/*public function deleteSession()
 		{
 			$sessions = $this->getSessions();
 			
@@ -415,7 +439,30 @@ class AdminController extends Controller
 			$session->delete();
 			
 			return showHome();
-		}
+		}*/
+
+
+
+		/**
+			Changes active session "description"
+		**/
+		/*public function setDescription($description)
+		{
+			$sessions = $this->getSessions();
+			
+			$sessions = $sessions->reject(function ($value, $key) {
+				$d = new Carbon($value->date_fin);
+				return $d->lt(Carbon::now());
+			});
+			
+			$session = $sessions->last();
+			if (is_null($session))
+				return "Pas de session active !";
+			
+			$session->description = $description;
+			
+			return showHome();
+		}*/
 
 
 
@@ -423,7 +470,7 @@ class AdminController extends Controller
 			Changes active session "from date" if "from date" is not passed
 			Shows active session and finished sessions informations
 		**/
-		public function setFromDate($fromDate)
+		/*public function setFromDate($fromDate)
 		{
 			$sessions = $this->getSessions();
 			
@@ -441,7 +488,7 @@ class AdminController extends Controller
 				$session->date_debut = $fromDate;
 			
 			return showHome();
-		}
+		}*/
 
 
 
@@ -449,7 +496,7 @@ class AdminController extends Controller
 			Changes active session "to date" if "to date" is not passed
 			Shows active session and finished sessions informations
 		**/
-		public function setToDate($toDate)
+		/*public function setToDate($toDate)
 		{
 			$sessions = $this->getSessions();
 			
@@ -467,7 +514,8 @@ class AdminController extends Controller
 				$session->date_fin = $toDate;
 			
 			return showHome();
-		}
+		}*/
+
 
 
 		/**
@@ -475,7 +523,7 @@ class AdminController extends Controller
 			Changes active session "to date" if "to date" is not passed
 			Shows active session and finished sessions informations
 		**/
-		public function setDate($fromDate, $toDate)
+		/*public function setDate($fromDate, $toDate)
 		{
 			$sessions = $this->getSessions();
 			
@@ -504,6 +552,8 @@ class AdminController extends Controller
 			}
 			
 			return showHome();
-		}
+		}*/
+
+
 
 }

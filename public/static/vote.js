@@ -1,4 +1,3 @@
-
 function upvote(button, id)
 {
     ajax("/vote/upvote/" + id,
@@ -55,23 +54,21 @@ function init()
 
 // function voteCounter(id){
 
-//     if(localStorage[id]==1){
-// 	clearLocalStorage();
-// 	document.getElementById(id).disabled = true;
-//    }else{
-
-// 	if(typeof(Storage) !== "undefined") {
-//             if (localStorage[id]) {
-// 		localStorage[id] = Number(localStorage[id])+1;
-//             }
-// 	    else {
-// 		localStorage[id] = 1;
-//             } 
-//         }else {
-//             document.getElementById("votes").innerHTML = "localStorage n'est pas supporté";
-//         }
+// if(localStorage[id]==1){
+// clearLocalStorage();
+// document.getElementById(id).disabled = true;
+// } else {
+// if(typeof(Storage) !== "undefined") {
+// if (localStorage[id]) {
+// localStorage[id] = Number(localStorage[id])+1;
+// } else {
+// localStorage[id] = 1;
+// } 
+// } else {
+// document.getElementById("votes").innerHTML = "localStorage n'est pas supporté";
 // }
-//     }
+// }
+// }
 
 
 
@@ -84,6 +81,6 @@ function init()
 // values.push(unJour);
 // //Vérifier la date d'expiration
 // if (values[0] < new Date()) {
-//     localStorage.clear("votes");
+// localStorage.clear("votes");
 // }
 // }

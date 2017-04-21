@@ -1,4 +1,3 @@
-
 function ajax(url, onSuccess, onError)
 {
     console.log("ajax(" + url + ")");
