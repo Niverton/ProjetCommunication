@@ -310,7 +310,9 @@ class AdminController extends Controller
 			if (is_null($session))
 				return "Pas de session active !";
 			
-			$session->oeuvres()->delete();
+			$contents = $session->oeuvres()->withPivot('score')->orderBy('score', 'desc')->get();
+			foreach ($contents as $c)
+				$c->pivot->delete();
 			
 			$session->delete();
 			
