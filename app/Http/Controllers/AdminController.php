@@ -313,7 +313,7 @@ class AdminController extends Controller
 			$session->oeuvres()->delete();
 			
 			$session->delete();
-
+			
 			return redirect("/admin");
 		}
 
@@ -321,37 +321,39 @@ class AdminController extends Controller
 
 		public function results($sessionID)
 		{
-			$artworks = [
-				[
-					"votes" => 14,
-					"id" => 0,
-					"name" => "La Joconde",
-					"author" => "Léonard de Vinci",
-					"author_id" => 0,
-					"date" => "1940",
-					"description" => "Un magnifique tableau sur toile de léonard.",
-					"image" => "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg/260px-Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg"
-				],
-
-				[
-					"votes" => 86,
-					"id" => 1,
-					"name" => "Autoportrait",
-					"author" => "Vincent Van Gogh",
-					"author_id" => 2,
-					"date" => "1889",
-					"description" => "Un magnifique tableau sur toile de notre amis à l'oreille coupé.",
-					"image" => "http://media.topito.com/wp-content/uploads/2012/03/Tableaux019.jpg"
-				]
-			];
-                   
+			$sessions = $this->getSessions();
+			
+			$session = null;
+			foreach ($sessions as $s)
+				if ($s->id_session == $sessionID)
+					$session = $s;
+			
+			if (is_null($session))
+				return "Pas de session avec cet ID !";
+			
+			$contents = $session->oeuvres()->withPivot('score')->orderBy('score', 'desc')->get();
+			$artworks = [];
+			foreach ($contents as $c) {
+				$a = $c->auteur()->get()->last();
+				$artworks[] = [
+					"votes" => $c->pivot->score,
+					"id" => $c->id_oeuvre,
+					"name" => $c->nom,
+					"author_id" => $a->id_auteur,
+					"author" => $a->nom,
+					"date" => $c->date,
+					"description" => $c->description,
+					"image" => $c->url_image
+				];
+			}
+			
 			$args = [
-				"sessionDescription" => "Exposition de peintures.",
-				"fromDate" => "2017-04-20",
-				"toDate" => "2017-04-30",
+				"sessionDescription" => $session->description,
+				"fromDate" => $session->date_debut,
+				"toDate" => $session->date_fin,
 				"artworks" => $artworks
 			];
-                   
+			
 			return view("admin_results", $args);
 		}
 
