@@ -38,7 +38,7 @@
             <div><span class="author">{{$a['author']}}</span> <time>{{$a['date']}}</time></div>
             <p class="description">{{$a['description']}}</p>
           </div>
-          <button class="ok button upvote" id="upvote{{$a['id']}}" onclick="upvote(this, {{$a['id']}})">Voter pour cette œuvre</button>
+					<p>Nombre de votes : {{$a['votes']}}</p>
           <a class="cancel button" href="#n">Retour à la galerie</a>
         </div>
       </div>
