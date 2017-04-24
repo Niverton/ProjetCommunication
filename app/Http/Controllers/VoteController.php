@@ -25,7 +25,7 @@ class VoteController extends Controller
         //On rejète toutes les sessions inactives (celles dont la date de fin est plus petite que la date actuelle)
         $filter = $sessions->reject(function ($value, $key) {
             $d = new Carbon($value->date_fin);
-            return $d->lte(Carbon::now());
+            return $d->lt(Carbon::now()->subDays(1));
         });
 
         //On trie les sessions par ID
@@ -49,6 +49,10 @@ class VoteController extends Controller
         if (is_null($session))
             return view("vote_no_session");
 
+				$from = new Carbon($session->date_debut);
+				if ($from->gt(Carbon::now()))
+						return view("vote_no_session");
+				
 				//On récupère la liste des IDs des auteurs
         $oeuvres = $session->oeuvres()->get();
         $auteurs = [];
@@ -92,6 +96,10 @@ class VoteController extends Controller
         $session = $sessions->last();
         if (is_null($session))
            return view("vote_no_session");
+				
+				$from = new Carbon($session->date_debut);
+				if ($from->gt(Carbon::now()))
+						return view("vote_no_session");
 
         $auteur = Auteur::where('id_auteur', urldecode($aut))->get()->last();
         if (is_null($auteur))
@@ -135,6 +143,10 @@ class VoteController extends Controller
         $session = $sessions->last();
         if (is_null($session))
            return view("vote_no_session");
+				
+				$from = new Carbon($session->date_debut);
+				if ($from->gt(Carbon::now()))
+						return view("vote_no_session");
 
         //On récupère toutes les oeuvres attachées à la session
         $contents = $session->oeuvres()->withPivot('score')->orderBy('score', 'desc')->get();
@@ -176,7 +188,6 @@ class VoteController extends Controller
 
         $sessions = $this->getActiveSessions();
         $session = $sessions->last();
-        
         
         if (!is_null($session)) {
             $o = $session->oeuvres()->where('id_oeuvre', $id)->get()->last();

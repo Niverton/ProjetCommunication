@@ -257,7 +257,7 @@ class AdminController extends Controller
 			
 			$sessions = $sessions->reject(function ($value, $key) {
 				$d = new Carbon($value->date_fin);
-				return $d->lt(Carbon::now());
+				return $d->lt(Carbon::now()->subDays(1));
 			});
 			
 			$session = $sessions->last();
@@ -274,7 +274,7 @@ class AdminController extends Controller
 			
 			$sessions = $sessions->reject(function ($value, $key) {
 				$d = new Carbon($value->date_fin);
-				return $d->gte(Carbon::now());
+				return $d->gte(Carbon::now()->subDays(1));
 			});
 			
 			$history = [];
@@ -303,7 +303,7 @@ class AdminController extends Controller
 			
 			$sessions = $sessions->reject(function ($value, $key) {
 				$d = new Carbon($value->date_fin);
-				return $d->lt(Carbon::now());
+				return $d->lt(Carbon::now()->subDays(1));
 			});
 			
 			$session = $sessions->last();
@@ -394,11 +394,11 @@ class AdminController extends Controller
 			$cart = $_SESSION['cart'];
 
 			$from = new Carbon($fromDate);
-			if ($from->lt(Carbon::now()))
+			if ($from->lt(Carbon::now()->subDays(1)))
 				return redirect("/admin/create#invalid-dates");
 
 			$to = new Carbon($toDate);
-			if ($to->lte($from))
+			if ($to->lt($from))
 				return redirect("/admin/create#invalid-dates");
 
 			if ($fromDate === null || $toDate === null)
