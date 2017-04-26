@@ -18,7 +18,7 @@
                 </div>
             </header>
             
-            <p class="warning"><strong>Aucun vote en cours,<br />revenez plus tard !</strong></p>
+            <p class="warning"><strong>Aucun vote en cours,<br/>revenez plus tard !</strong></p>
 
         </div>
         
