@@ -19,12 +19,12 @@
                     <h3>Nouvelle session</h3>
                     
                     <div class="time">
-                        session ouverte
+                        Session ouverte
 
                         @if (empty($fromDate))
-                            <a href="#form">cliquez ici pour choisir les dates</a>
+                            <a href="#form">Cliquez ici pour choisir les dates.</a>
                         @else
-                            du <a href="#form">{{$fromDate}} au {{$toDate}}</a>
+                            du <a href="#form">{{$fromDate}} au {{$toDate}}.</a>
                         @endif
 
                     </div>
