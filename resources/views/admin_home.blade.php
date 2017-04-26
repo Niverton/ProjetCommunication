@@ -8,6 +8,7 @@
     </head>
     
     <body class="admin home">
+
         <header>
             <div>
                 <h1>Votez pour vos œuvres favorites !</h1>
@@ -39,7 +40,8 @@
                     </li>
                 @endforeach
             </ul>
-        </div>            
+        </div>  
+          
     </body>
 
 </html>

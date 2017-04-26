@@ -32,7 +32,7 @@
     <div class="modal artwork" id="artwork{{$a['id']}}">
       <div class="background"></div>
       <div class="content">
-        <img alt="Photographie de l'œuvre {{$a['name']}}" src="{{$a['image']}}" />
+        <img alt="Photographie de l'œuvre {{$a['name']}}" src="{{$a['image']}}"/>
         <div class="side">
           <div class="info">
             <h4 class="name">{{$a['name']}}</h4>
@@ -55,6 +55,7 @@
      
      init();
     </script>
+
   </body>
 
 </html>

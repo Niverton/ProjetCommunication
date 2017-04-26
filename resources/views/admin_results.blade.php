@@ -23,7 +23,7 @@
             @foreach ($artworks as $a)<a href="#artwork{{$a['id']}}" style="background-image: url({{$a['image']}});">
                 <em>{{$a['votes']}}</em>
                 <span>
-                    <strong class="name"  >{{$a['name']}}</strong> 
+                    <strong class="name">{{$a['name']}}</strong> 
                     <span class="author">{{$a['author']}}</span>
                 </span>
             </a>@endforeach
@@ -33,7 +33,7 @@
             <div class="modal artwork" id="artwork{{$a['id']}}">
                 <div class="background"></div>
                 <div class="content">
-                    <img alt="Photographie de l'œuvre {{$a['name']}}" src="{{$a['image']}}" />
+                    <img alt="Photographie de l'œuvre {{$a['name']}}" src="{{$a['image']}}"/>
                     <div class="side">
                         <div class="info">
                             <h4 class="name">{{$a['name']}}</h4>
