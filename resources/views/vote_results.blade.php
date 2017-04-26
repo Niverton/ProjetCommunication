@@ -15,7 +15,8 @@
         <h2>Musée des beaux-arts de Bordeaux</h2>
         <time>Session de vote ouverte du {{$fromDate}} au {{$toDate}}</time>
       </div>
-      <p>{{$sessionDescription}}</p>
+      <p>{{$sessionDescription}}</br></br>
+			Vote terminé, les résultats ci-dessous.</p>
     </header>
     
     <div class="gallery">
@@ -31,29 +32,20 @@
     <div class="modal artwork" id="artwork{{$a['id']}}">
       <div class="background"></div>
       <div class="content">
-        <img alt="Photographie de l'œuvre {{$a['name']}}" src="{{$a['image']}}" />
+        <img alt="Photographie de l'œuvre {{$a['name']}}" src="{{$a['image']}}"/>
         <div class="side">
           <div class="info">
             <h4 class="name">{{$a['name']}}</h4>
             <div><span class="author">{{$a['author']}}</span> <time>{{$a['date']}}</time></div>
             <p class="description">{{$a['description']}}</p>
           </div>
-          <button class="ok button upvote" id="upvote{{$a['id']}}" onclick="upvote(this, {{$a['id']}})">Voter pour cette œuvre</button>
+          <p>Nombre de votes : {{$a['votes']}}</p>
           <a class="cancel button" href="#n">Retour à la galerie</a>
         </div>
       </div>
     </div>
     @endforeach
 
-
-    <script src="/static/ajax.js"></script>
-    <script src="/static/vote.js"></script>
-    <script>
-     var SESSION_ID = {{$id}};
-     var DISABLED_UPVOTE = "Vous avez voté pour cette œuvre";
-     
-     init();
-    </script>
   </body>
 
 </html>

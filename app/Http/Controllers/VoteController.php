@@ -15,12 +15,26 @@ use Carbon\Carbon;
 class VoteController extends Controller
 {
 
+		/**
+			Returns list of all sessions ordered by ID
+		**/
+		private function getSessions()
+		{
+			$sessions = Session::all();
+			$sessions->sortBy('id_session');
+			$sessions->load('oeuvres');
+			
+			return $sessions;
+		}
+
+
+
     /*
      * Returns list of active sessions ordered by ID
      */
-    private function getActiveSessions()
+    private function getActiveSession()
 		{
-        $sessions = Session::all();
+        $sessions = $this->getSessions();
 
         //On rejète toutes les sessions inactives (celles dont la date de fin est plus petite que la date actuelle)
         $filter = $sessions->reject(function ($value, $key) {
@@ -43,7 +57,7 @@ class VoteController extends Controller
      */
     public function showAuthors()
     {
-        $sessions = $this->getActiveSessions();
+        $sessions = $this->getActiveSession();
 
         $session = $sessions->last();
         if (is_null($session))
@@ -91,19 +105,19 @@ class VoteController extends Controller
      */
     public function showAuthorsContent($aut)
 		{
-        $sessions = $this->getActiveSessions();
+        $sessions = $this->getActiveSession();
 
         $session = $sessions->last();
         if (is_null($session))
-           return view("vote_no_session");
+					return view("vote_no_session");
 				
 				$from = new Carbon($session->date_debut);
 				if ($from->gt(Carbon::now()))
-						return view("vote_no_session");
+					return view("vote_no_session");
 
         $auteur = Auteur::where('id_auteur', urldecode($aut))->get()->last();
         if (is_null($auteur))
-            return 'Auteur non trouvé dans la session.'; //TODO
+          return 'Auteur non trouvé dans la session.'; //TODO
         $contents = $session->oeuvres()->where('auteur_id_auteurs', $auteur->id_auteur)->get();
 
         $artworks = [];
@@ -138,15 +152,27 @@ class VoteController extends Controller
      * Shows the artworks view
      */
     public function showArtworks() {
-        $sessions = $this->getActiveSessions();
+        $sessions = $this->getActiveSession();
+				$active = true;
 
         $session = $sessions->last();
-        if (is_null($session))
-           return view("vote_no_session");
-				
-				$from = new Carbon($session->date_debut);
-				if ($from->gt(Carbon::now()))
+        if (is_null($session)) {
+					$sessions = $this->getSessions();
+					$session = $sessions->last();
+					if (is_null($session))
 						return view("vote_no_session");
+					$active = false;
+				}
+				else {
+					$from = new Carbon($session->date_debut);
+					if ($from->gt(Carbon::now())) {
+						$sessions = $this->getSessions();
+						$session = $sessions->last();
+						if (is_null($session))
+							return view("vote_no_session");
+						$active = false;
+					}
+				}
 
         //On récupère toutes les oeuvres attachées à la session
         $contents = $session->oeuvres()->withPivot('score')->orderBy('score', 'desc')->get();
@@ -155,10 +181,11 @@ class VoteController extends Controller
         foreach ($contents as $c) {
             $a = $c->auteur()->get()->last();
             $artworks[] = [
+								'votes' => $c->pivot->score,
                 'id' => $c->id_oeuvre,
                 'name' => $c->nom,
+								'author_id' => $a->id_auteur,
                 'author' => $a->nom,
-                'author_id' => $a->id_auteur,
                 'date' => $c->date,
                 'description' => $c->description,
                 'image' => $c->url_image
@@ -166,14 +193,17 @@ class VoteController extends Controller
         }
 
         $args = [
-            'sessionId' => $session->id_session,
+            'id' => $session->id_session,
             'sessionDescription'=> $session->description,
             'fromDate'=> $session->date_debut,
             'toDate'=> $session->date_fin,
             'artworks'=> $artworks
         ];
 
-        return view("vote", $args);
+				if ($active)
+        	return view("vote", $args);
+				else
+					return view("vote_results", $args);
     }
 
 
@@ -186,7 +216,7 @@ class VoteController extends Controller
     public function upvote($id) {
         $isOK = "false"; //Code retour requète
 
-        $sessions = $this->getActiveSessions();
+        $sessions = $this->getActiveSession();
         $session = $sessions->last();
         
         if (!is_null($session)) {
