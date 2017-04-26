@@ -19,7 +19,8 @@ $app->get("/", function() use ($app) {
 	<!DOCTYPE html>
 	<html>
 	<head>
-	<title>Musée des beaux arts de bordeaux</title>	
+	<title>Musée des beaux arts de bordeaux</title>
+    <link rel=\"stylesheet\" href=\"/static/style.css\">
 	</head>
 	<body>	
 	<h1>Mise en valeur des réserves</h1>
