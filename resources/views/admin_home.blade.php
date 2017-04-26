@@ -8,38 +8,37 @@
     </head>
     
     <body class="admin home">
-
-        <div class="vsplit">
-            
-            <header>
-                <div>
-                    <h1>Votez pour vos œuvres favorites !</h1>
-                    <h2>Musée des beaux-arts de Bordeaux</h2>
-                </div>
-            </header>
-
-            <div class="vsplit">
-                @if ($active === null)
-                    <div class="buttons">
-                        <a href="/admin/create">Créer un nouvelle session de vote</a>
-                    </div>
-                @endif
-                <ul>
-                    @if ($active !== null)
-                        <li class="active">
-                            <a href="/admin/results/{{$active['id']}}"><time>{{$active['fromDate']}} → {{$active['toDate']}}</time></a>
-                            <a class="close" href="/admin/close">Fermer le vote</a>
-                        </li>
-                    @endif
-                    @foreach ($history as $session)
-                        <li>
-                            <a href="/admin/results/{{$session['id']}}"><time>{{$session['fromDate']}} → {{$session['toDate']}}</time></a>
-                        </li>
-                    @endforeach
-                </ul>
+        <header>
+            <div>
+                <h1>Votez pour vos œuvres favorites !</h1>
+                <h2>Musée des beaux-arts de Bordeaux</h2>
             </div>
+        </header>
 
-        </div>
+        <div>
+            <a class="cancel button" href="/vote">Page de vote</a>
+            @if ($active === null)
+                <a class="ok button" href="/admin/create">Créer un nouvelle session de vote</a>
+            @endif
+
+
+            @if ($active !== null)
+                <h3>Session active</h3>
+                <div class="active">
+                    <a class="ok button" href="/admin/results/{{$active['id']}}"><time>{{$active['fromDate']}} → {{$active['toDate']}}</time></a>
+                    <a class="cancel button" href="/admin/close">Fermer le vote</a>
+                </div>
+            @endif
+            
+            <h3>Historique</h3>
+            <ul class="history">
+                @foreach ($history as $session)
+                    <li>
+                        <a class="ok button" href="/admin/results/{{$session['id']}}"><time>{{$session['fromDate']}} → {{$session['toDate']}}</time></a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>            
     </body>
 
 </html>
