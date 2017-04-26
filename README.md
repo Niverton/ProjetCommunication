@@ -12,7 +12,9 @@ Veuillez suivre ces quelques instructions pour utiliser l'application web.
 - Installer phpMyAdmin
 - Lancer le service MySQL
 - Se rendre dans le répertoire d'installation de phpMyAdmin puis y lancer un serveur PHP :
-> php --server localhost:9090
+```
+php --server localhost:9090
+```
 - Ouvrir un navigateur web et se rendre à l'adresse `localhost:9090`
 - Créer une base
 - Y importer le dump SQL `MySQLWorkbench/final_dump.sql`
@@ -20,20 +22,26 @@ Veuillez suivre ces quelques instructions pour utiliser l'application web.
 ### Paramétrage de Lumen
 
 À la racine du dépôt :
-> cp env .env
+```
+cp env .env
+```
 
 Éditer `.env` et modifier les lignes suivantes :
-> DB_HOST=localhost
-> DB_PORT=3306
-> DB_DATABASE=nom_de_la_base
-> DB_USERNAME=nom_utilisateur_mysql
-> DB_PASSWORD=mot_de_passe
+```
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=nom_de_la_base
+DB_USERNAME=nom_utilisateur_mysql
+DB_PASSWORD=mot_de_passe
+```
 
 ### Serveur web
 
 À la racine du dépôt :
-> cd public
-> php --server localhost:8080
+```
+cd public
+php --server localhost:8080
+```
 
 Dans un navigateur web, se rendre à l'adresse `localhost:8080`.
 
