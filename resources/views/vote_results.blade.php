@@ -16,7 +16,7 @@
         <time>Session de vote ouverte du {{$fromDate}} au {{$toDate}}</time>
       </div>
       <p>{{$sessionDescription}}</br></br>
-			Vote terminé, les résultats ci-dessous.</p>
+      Vote terminé, les résultats ci-dessous.</p>
     </header>
     
     <div class="gallery">
