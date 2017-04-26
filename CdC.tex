@@ -1,0 +1,132 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[francais]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Cahier des charges}
+\author{Benoit FAGET, Rémy MAUGEY, Oussama MEHDAOUI,\\Timothée JOURDE et Carlos NEZOUT}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+%% \begin{abstract}
+%% Your abstract.
+%% \end{abstract}
+
+\section{Présentation du projet}
+\subsection{Contexte}
+Le musée des beaux-arts de Bordeaux ne peut pas exposer la majorité des œuvres de sa collection, son espace d’exposition étant insuffisant. Le musée souhaiterait trouver un moyen de valoriser ses œuvres restées en réserve, invisibles aux visiteurs.
+\subsection{Objectif}
+Nous voulons permettre au musée de faire sortir ses œuvres restées en réserve lors d’expositions temporaires. Ces expositions seront composées d’œuvres choisies exclusivement par les visiteurs et les internautes à l’aide d’une application web permettant de voter pour ses œuvres favorites parmis celles proposées par le musée. Cette application peut être proposée à la fin d’une visite en affichant la page web sur une des tablettes du musée, sur le site web du musée et être largement diffusée et partagée sur les réseaux sociaux par le musée. Tout ce qui a trait au vote (mise en place, œuvres proposées, durée, suivi et gestion) doit pouvoir être géré intégralement en interne par le personnel du musée.
+\subsection{Description de l'existant}
+Le musée dispose d’un espace libre suffisant pour recevoir une exposition temporaire. Il dispose également d’un site web sur lequel les photographies des œuvres en réserves sont disponibles, d'une base de données Mobydoc exportable et est présent sur les réseaux sociaux.
+\subsection{Critères d'acceptabilité du produit}
+L’application doit permettre au musée de :
+\begin{itemize}
+\item commencer/terminer un vote;
+\item désigner les œuvres à soumettre au vote;
+\item déterminer la durée et la description d'un vote;
+\item suivre et gérer un vote en cours;
+\item afficher les résultats d'un vote en cours ou terminé.
+\end{itemize}
+L’application doit permettre au visiteur de voter sans authentification pour ses œuvres favorites.
+%% Commentaires : revoir la définition fonctionnelle donnée / remplacer "internaute" par un autre terme.
+
+\section{Expression des besoins}
+\subsection{Besoins fonctionnels}
+D'un choix purement technique nous avons décidé de mettre en place deux plateformes de développement qui communiqueront avec la base de données. Côté musée, l'application n'est accessible que par le musée et permettra la gestion des votes par celui-ci. Côté utilisateur, l’application permet à l'utilisateur de soumettre son avis au musée en votant pour ses œuvres favorites parmis celles proposées. L’application est divisée en deux parties, musée (administration) et visiteur (vote).
+
+\subsubsection{Partie musée}
+Il s’agit de la partie administrative de l’application, hébergée au musée et accessible uniquement en local. Elle est découpée en plusieurs parties :
+\begin{itemize}
+\item une page d'accueil qui affiche la liste des sessions de votes terminées ou en cours et qui permet d'accèder aux pages de résultats et de création/modification;
+\item une page de résultats par session permettant de consulter le nombre de votes pour chaque œuvre;
+\item une page de création/modification permettant de créer/modifier une session.\\
+\end{itemize}
+
+\underline{Page d'accueil :}\\
+%% Être plus intuitif sur l'état de la session (en cours ou non).
+\begin{itemize}
+\item Si aucun vote n'est en cours, la page d’accueil propose de commencer un nouveau vote à l'aide d'un bouton et d'une redirection vers la page de création.
+\item Si un vote est en cours, la page d’accueil propose de modifier le vote à l'aide d'un bouton et d'une redirection vers la page de modification. Elle permet aussi de terminer un vote en cliquant sur le bouton qui lui est associé (un vote ainsi terminé voit sa date de fin remplacée par la date actuelle).
+\item La page d'accueil affiche l'historique des votes terminés. Elle propose d'accéder aux résultats d'un vote (terminé ou en cours), en cliquant sur ce dernier à l'aide d'une redirection vers la page de résultats correspondante. Elle permet aussi d'accéder à la page sur laquelle les visiteurs du musée peuvent voter à l'aide d'un bouton et d'une redirection vers cette page.\\
+\end{itemize}
+
+\underline{Page de création/modification :}\\
+\begin{itemize}
+\item Si un vote est en cours, la page de modification propose de modifier sa date de fin ainsi que sa description (en vérifiant que la date de fin n'est pas antérieure à la date actuelle) à l’aide de multiples formulaires (pré-remplis à partir du vote actuel, les valeurs sont stockées dans des variables de session) et d'un bouton de confirmation. Avant confirmation, la page doit vérifier que le format des champs est correct. %TODO Benoit
+\item Si un vote est en attente, la page de modification propose de modifier ses dates de début et de fin ainsi que sa description (en vérifiant que les dates de début et de fin ne sont pas antérieures à la date actuelle, ainsi que leur bonne chronologie) à l’aide de multiples formulaires (pré-remplis à partir du vote actuel, les valeurs sont stockées dans des variables de session) et d'un bouton de confirmation. Avant confirmation, la page doit vérifier que le format des champs est correct.
+\item Si aucun vote n’est en cours ou en attente, la page de création est la même mais les formulaires sont vide. Elle propose en plus de sélectionner les œuvres à l'aide d'un système de panier : en cliquant sur une des œuvres proposées, elle est ajoutée au panier ; en cliquant sur une des œuvres du panier, elle est retirée du panier. Avant confirmation, la page doit en plus vérifier que le panier n'est pas vide, c'est-à-dire qu'au moins une œuvre a été sélectionnée.\\
+\end{itemize}
+
+\underline{Page de résultats :}\\
+\begin{itemize}
+\item La page de résultats affiche les dates de début et de fin ainsi que la description du vote concerné. Elle affiche aussi les vignettes des œuvres sélectionnées pour ce vote, chaque vignette est accompagnée du nombre de vote qu'elle a reçu.\\
+\end{itemize}
+
+\subsubsection{Partie visiteur}
+Il s’agit de la partie publique de l’application, libre d’accès pour les visiteurs. Elle est composée d’une unique page : une page d’accueil permettant à l’utilisateur d'attribuer un vote sans authentification pour ses œuvres favorites lorsqu'un vote est en cours ou de prendre connaissance des résultats lorsqu'un vote est terminé.\\
+
+\underline{Page d'accueil :}\\
+%% Remplacer les occurences de "vote" qui désignent le vote mis en place par le musée par un autre terme permettant de les différencier du vote de l'utilisateur pour une œuvre.
+\begin{itemize}
+\item Si un vote est en cours, la page d'accueil affiche ses dates de début et de fin ainsi que sa description. Elle affiche les vignettes des œuvres pour lesquelles l'utilisateur peut attribuer un vote. Si l'utilisateur clique sur la vignette d'une œuvre, une image agrandie accompagnée d'un texte explicatif comprenant le titre, le nom de l'artiste, la date ainsi qu'une éventuelle description apparaît au premier plan, le reste de la page en arrière-plan est assombri. Un bouton permettant à l'utilisateur d'attribuer un vote est situé sous le texte explicatif. Si l'utilisateur clique sur le bouton, le vote est comptabilisé à l'aide d'une requête ajax. Un autre bouton permet à l'utilisateur de retourner à la page en arrière-plan en cliquant dessus. Le visiteur est limité à un seul vote par œuvre chaque jour, cette limitaion est géréé côté client par le localStorage.
+%% Système d'étoiles, 1 ou 5, actualisation ou ajax (cookies) => avorté !
+%% Affichage des œuvres en fonction du classement ?
+\item Si un vote est terminé, la page d'accueil affiche ses dates de début et de fin ainsi que sa description et signale que le vote est terminé. Elle affiche les vignettes des œuvres pour lesquelles l'utilisateur pouvait attribuer un vote lors du précédent vote, chaque vignette est accompagnée du nombre de votes qu'elle a reçu.
+\item S'il n'y a encore jamais eu de vote, la page d'accueil signale qu'il n'y a jamais eu de vote.\\
+\end{itemize}
+
+\subsection{Besoins non fonctionnels}
+L'application doit être portable : compatible avec les principaux navigateurs web (Firefox, Chrome, Edge, etc.) et l'affichage doit s'adapter à la largeur d'écran de l'utilisateur.\\
+
+\section{Contraintes}
+\subsection{Coûts}
+Ce projet entrant dans le cadre d'un enseignement universitaire, aucun budget n'a été alloué. Il faut cependant prévoir un coût en ce qui concerne l'hébergement de l'application web.
+\subsection{Délais}
+Ce projet doit être complété pour le 26 avril 2017 afin d'être soumis à évaluation par l'université. Cependant, aucun délai n'a été fixé pour un rendu de l'application web au musée.
+\subsection{Autres contraintes}
+Au même titre que le site web du musée, l’application doit être hébergée par la mairie de Bordeaux. Nous sommes aussi dépendants du musée en ce qui concerne la récupération de sa base de données présente sur Mobydoc.
+
+\section{Déroulement du projet}
+\subsection{Plannification}
+Un cahier des charges corrigé doit être proposé pour le 09 février 2017. Une nouvelle version du cahier des charges doit être proposée pour le 16 février 2017. Ce projet implique une prise en main rapide de Lumen, une version plus légère du framework Laravel. L'application terminée doit être rendue pour le 26 avril 2017.
+\subsection{Organisation}
+Un dépôt git a été mis en place sur GitHub. Une plannification avec répartition des tâches à accomplir a été mise en place sur Trello. Un chat de discussion lié à GitHub et Trello a été mis en place sur Slack, permettant une centralisation des informations relatives au projet.
+
+\section{Implémentation}
+Dans notre prototype, les parties administration et publique sont comprises dans une seule et même application. Cela facilite le développement des deux parties en donnant la possibilité d'effectuer des tests rapides. Ces parties sont très facilement séparables en vue d'un déploiement.
+\subsection{Choix technologiques}
+Les deux applications sont des applications web basées sur le framework Lumen. Elles utilisent une base de donnée de type MySQL locale ou distante suivant la configuration.
+\subsection{Lumen}
+Les applications sont divisées en plusieurs parties dans Lumen :
+\begin{itemize}
+\item la configuration du site (accès base de donnée) et des routes;
+\item les modèles d'accès à la base de donnée;
+\item les contrôleurs HTTP (réponses aux requètes HTTP);
+\item les vues (pages web servies à l'utilisateur par l'application).
+\end{itemize}
+
+\subsection{Base de données}
+Le schéma de la base de données est le suivant :\\
+\newline
+\includegraphics[keepaspectratio=true, width=\textwidth]{test.png}
+
+Ce schéma permet d'éviter la duplication des œuvres et des auteurs à travers les sessions. En effet, une même œuvre dans la base de donnée peut être rattachée à plusieurs sessions. Les applications accèdent à la base de donnée grâce à des modèles Lumen qui permettent de restranscrire en PHP le modèle précédent de base de donnée avec ses relations.
+
+\end{document}
