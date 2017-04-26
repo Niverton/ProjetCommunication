@@ -152,6 +152,10 @@ class VoteController extends Controller
         $session = $sessions->last();
         if (is_null($session)) {
 			$sessions = $this->getSessions();
+            $sessions = $sessions->reject(function ($value, $key) {
+                $from = new Carbon($value->date_debut);
+                return $from->gt(Carbon::now());
+            });
 			$session = $sessions->last();
 			if (is_null($session))
 				return view("vote_no_session");
@@ -160,7 +164,11 @@ class VoteController extends Controller
 		else {
 			$from = new Carbon($session->date_debut);
 			if ($from->gt(Carbon::now())) {
-				$sessions = $this->getSessions();
+                $sessions = $this->getSessions();
+                $sessions = $sessions->reject(function ($value, $key) {
+                    $from = new Carbon($value->date_debut);
+                    return $from->gt(Carbon::now());
+                });
 				$session = $sessions->last();
 				if (is_null($session))
 					return view("vote_no_session");
