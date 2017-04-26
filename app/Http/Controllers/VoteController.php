@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Validator;
-
 use App\Session;
 use App\Auteur;
 use App\Oeuvre;
-
-use Carbon\Carbon;
+use App\Utils;
 
 class VoteController extends Controller
 {
@@ -21,7 +20,7 @@ class VoteController extends Controller
 		private function getSessions()
 		{
 			$sessions = Session::all();
-			$sessions->sortBy('id_session');
+			$sessions = $sessions->sortBy('id_session');
 			$sessions->load('oeuvres');
 			
 			return $sessions;
@@ -39,13 +38,8 @@ class VoteController extends Controller
         //On rejète toutes les sessions inactives (celles dont la date de fin est plus petite que la date actuelle)
         $filter = $sessions->reject(function ($value, $key) {
             $d = new Carbon($value->date_fin);
-            return $d->lt(Carbon::now()->subDays(1));
+            return $d->lt(Carbon::now());
         });
-
-        //On trie les sessions par ID
-        $filter->sortBy('id_session');
-        //On préchauffe les oeuvres, réduit le nombre de requêtes plus tard
-        $filter->load('oeuvres');
 
         return $filter;
     }
@@ -109,7 +103,7 @@ class VoteController extends Controller
 
         $session = $sessions->last();
         if (is_null($session))
-					return view("vote_no_session");
+			return view("vote_no_session");
 				
 		$from = new Carbon($session->date_debut);
 		if ($from->gt(Carbon::now()))
@@ -195,8 +189,8 @@ class VoteController extends Controller
         $args = [
             'id' => $session->id_session,
             'sessionDescription'=> $session->description,
-            'fromDate'=> $session->date_debut,
-            'toDate'=> $session->date_fin,
+            'fromDate'=> Utils::dateToRfc(new Carbon($session->date_debut)),
+            'toDate'=> Utils::dateToRfc(new Carbon($session->date_fin)),
             'artworks'=> $artworks
         ];
 

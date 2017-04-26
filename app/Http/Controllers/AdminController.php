@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Session;
 use App\Auteur;
 use App\Oeuvre;
-use Carbon\Carbon;
-
 use App\Utils;
 
 class AdminController extends Controller
@@ -20,7 +19,7 @@ class AdminController extends Controller
 		private function getSessions()
 		{
 			$sessions = Session::all();
-			$sessions->sortBy('id_session');
+			$sessions = $sessions->sortByDesc('id_session');
 			$sessions->load('oeuvres');
 			
 			return $sessions;
@@ -257,7 +256,7 @@ class AdminController extends Controller
 			
 			$sessions = $sessions->reject(function ($value, $key) {
 				$d = new Carbon($value->date_fin);
-				return $d->lt(Carbon::now()->subDays(1));
+				return $d->lt(Carbon::now());
 			});
 			
 			$session = $sessions->last();
@@ -265,8 +264,8 @@ class AdminController extends Controller
 				$active = null;
 			else
 				$active = [
-					"fromDate" => $session->date_debut,
-					"toDate" => $session->date_fin,
+					"fromDate" => Utils::dateToRfc(new Carbon($session->date_debut)),
+					"toDate" => Utils::dateToRfc(new Carbon($session->date_fin)),
 					"id" => $session->id_session
 				];
 			
@@ -274,7 +273,7 @@ class AdminController extends Controller
 			
 			$sessions = $sessions->reject(function ($value, $key) {
 				$d = new Carbon($value->date_fin);
-				return $d->gte(Carbon::now()->subDays(1));
+				return $d->gte(Carbon::now());
 			});
 			
 			$history = [];
@@ -282,9 +281,9 @@ class AdminController extends Controller
 			if (!is_null($session))
 				foreach ($sessions as $s)
 					$history[] = [
-						'fromDate' => $s->date_debut,
-						'toDate' => $s->date_fin,
-						'id' => $s->id_session
+						"fromDate" => Utils::dateToRfc(new Carbon($s->date_debut)),
+						"toDate" => Utils::dateToRfc(new Carbon($s->date_fin)),
+						"id" => $s->id_session
 					];
 			
 			$args = [
@@ -303,19 +302,22 @@ class AdminController extends Controller
 			
 			$sessions = $sessions->reject(function ($value, $key) {
 				$d = new Carbon($value->date_fin);
-				return $d->lt(Carbon::now()->subDays(1));
+				return $d->lt(Carbon::now());
 			});
 			
 			$session = $sessions->last();
 			if (is_null($session))
 				return "Pas de session active !";
 			
-			$contents = $session->oeuvres()->withPivot('score')->orderBy('score', 'desc')->get();
+			/*$contents = $session->oeuvres()->withPivot('score')->orderBy('score', 'desc')->get();
 			foreach ($contents as $c)
 				$c->pivot->delete();
 			
-			$session->delete();
+			$session->delete();*/
 			
+			$session->date_fin = Carbon::now()->subSeconds(1);
+			
+			$session->save();
 			return redirect("/admin");
 		}
 
@@ -351,8 +353,8 @@ class AdminController extends Controller
 			
 			$args = [
 				"sessionDescription" => $session->description,
-				"fromDate" => $session->date_debut,
-				"toDate" => $session->date_fin,
+				"fromDate" => Utils::dateToRfc(new Carbon($session->date_debut)),
+				"toDate" => Utils::dateToRfc(new Carbon($session->date_fin)),
 				"artworks" => $artworks
 			];
 			
@@ -394,10 +396,22 @@ class AdminController extends Controller
 			$cart = $_SESSION['cart'];
 
 			$from = new Carbon($fromDate);
-			if ($from->lt(Carbon::now()->subDays(1)))
+			$from->hour = 0;
+			$from->minute = 0;
+			$from->second = 0;
+			$now = Carbon::now();
+			$now->hour = 0;
+			$now->minute = 0;
+			$now->second = 0;
+			if ($from->lt($now))
 				return redirect("/admin/create#invalid-dates");
+			/*if ($from->lt(Carbon::now()))
+				$from = Carbon::now();*/
 
 			$to = new Carbon($toDate);
+			$to->hour = 23;
+			$to->minute = 59;
+			$to->second = 59;	
 			if ($to->lt($from))
 				return redirect("/admin/create#invalid-dates");
 
@@ -408,8 +422,8 @@ class AdminController extends Controller
 			else {
 				$session = new Session;
 			   
-				$session->date_debut = $fromDate;
-				$session->date_fin = $toDate;
+				$session->date_debut = $from;
+				$session->date_fin = $to;
 				$session->description = $description;
 			   
 				$session->save();
