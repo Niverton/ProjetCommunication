@@ -12,6 +12,7 @@
             <div>
                 <h1>Votez pour vos œuvres favorites !</h1>
                 <h2>Musée des beaux-arts de Bordeaux</h2>
+                <h3>Accueil</h3>
             </div>
         </header>
 

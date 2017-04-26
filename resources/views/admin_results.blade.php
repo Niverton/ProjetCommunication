@@ -13,7 +13,8 @@
             <div>
                 <h1>Votez pour vos œuvres favorites !</h1>
                 <h2>Musée des beaux-arts de Bordeaux</h2>
-                <time>Session de vote ouverte du {{$fromDate}} au {{$toDate}}</time>
+                <h3>Résultats</h3>
+                <time>session du {{$fromDate}} au {{$toDate}}</time>
             </div>
             <p>{{$sessionDescription}}</p>
         </header>
