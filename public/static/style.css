@@ -161,6 +161,11 @@ header > div > h2
 
     font-weight: normal;
 }
+header > div > h3
+{
+    font-size: 140%;
+    margin: 15px 0 5px 0;
+}
 
 
 
