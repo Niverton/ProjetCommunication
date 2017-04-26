@@ -27,19 +27,21 @@
             @if ($active !== null)
                 <h3>Session active</h3>
                 <div class="active">
-                    <a class="ok button" href="/admin/results/{{$active['id']}}"><time>{{$active['fromDate']}} → {{$active['toDate']}}</time></a>
+                    <a class="ok button" href="/admin/results/{{$active['id']}}">{{$active['fromDate']}} → {{$active['toDate']}}</a>
                     <a class="cancel button" href="/admin/close">Fermer le vote</a>
                 </div>
             @endif
-            
-            <h3>Historique</h3>
-            <ul class="history">
-                @foreach ($history as $session)
-                    <li>
-                        <a class="ok button" href="/admin/results/{{$session['id']}}"><time>{{$session['fromDate']}} → {{$session['toDate']}}</time></a>
-                    </li>
-                @endforeach
-            </ul>
+
+            @if (! empty($history))
+                <h3>Historique</h3>
+                <ul class="history">
+                    @foreach ($history as $session)
+                        <li>
+                            <a class="ok button" href="/admin/results/{{$session['id']}}">{{$session['fromDate']}} → {{$session['toDate']}}</a>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
         </div>  
           
     </body>

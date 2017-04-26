@@ -83,10 +83,10 @@ class VoteController extends Controller
 
         //TODO Temp ? Changer de vue, changer desc/titre ?
         $args = [
-            'sessionDescription'=> $session->description,
-            'fromDate'=> $session->date_debut,
-            'toDate'=> $session->date_fin,
-            'artworks'=> $artworks
+            'sessionDescription' => $session->description,
+            'fromDate'           => Utils::dateToString(new Carbon($session->date_debut)),
+            'toDate'             => Utils::dateToString(new Carbon($session->date_fin)),
+            'artworks'           => $artworks
         ];
 
         return view("vote", $args);
@@ -130,11 +130,11 @@ class VoteController extends Controller
 
         //TODO Changer desc ?
         $args = [
-            'id' => $session->id,
-            'sessionDescription'=> $session->description,
-            'fromDate'=> $session->date_debut,
-            'toDate'=> $session->date_fin,
-            'artworks'=> $artworks
+            'id'                 => $session->id,
+            'sessionDescription' => $session->description,
+            'fromDate'           => Utils::dateToString(new Carbon($session->date_debut)),
+            'toDate'             => Utils::dateToString(new Carbon($session->date_fin)),
+            'artworks'           => $artworks
         ];
 
         return view("vote", $args);
@@ -195,11 +195,11 @@ class VoteController extends Controller
         }
 
         $args = [
-            'id' => $session->id_session,
-            'sessionDescription'=> $session->description,
-            'fromDate'=> Utils::dateToRfc(new Carbon($session->date_debut)),
-            'toDate'=> Utils::dateToRfc(new Carbon($session->date_fin)),
-            'artworks'=> $artworks
+            'id'                 => $session->id_session,
+            'sessionDescription' => $session->description,
+            'fromDate'           => Utils::dateToString(new Carbon($session->date_debut)),
+            'toDate'             => Utils::dateToString(new Carbon($session->date_fin)),
+            'artworks'           => $artworks
         ];
 
 		if ($active)

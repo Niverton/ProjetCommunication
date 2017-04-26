@@ -239,9 +239,11 @@ class AdminController extends Controller
 			
 			$args = [
 				"sessionDescription" => $_SESSION['desc'],
-				"fromDate" => Utils::dateToRfc($_SESSION['fromDate']),
-				"toDate" => Utils::dateToRfc($_SESSION['toDate']),
-				"artworks" => $artworks,
+				"fromDate"    => Utils::dateToString($_SESSION['fromDate']),
+				"toDate"      => Utils::dateToString($_SESSION['toDate']),
+                "fromDateRfc" => Utils::dateToRfc($_SESSION['fromDate']),
+				"toDateRfc"   => Utils::dateToRfc($_SESSION['toDate']),
+				"artworks"    => $artworks,
 				"cartArtworks" => $cart
 			];
 			
@@ -264,8 +266,8 @@ class AdminController extends Controller
 				$active = null;
 			else
 				$active = [
-					"fromDate" => Utils::dateToRfc(new Carbon($session->date_debut)),
-					"toDate" => Utils::dateToRfc(new Carbon($session->date_fin)),
+					"fromDate" => Utils::dateToString(new Carbon($session->date_debut)),
+					"toDate"   => Utils::dateToString(new Carbon($session->date_fin)),
 					"id" => $session->id_session
 				];
 			
@@ -281,8 +283,8 @@ class AdminController extends Controller
 			if (!is_null($session))
 				foreach ($sessions as $s)
 					$history[] = [
-						"fromDate" => Utils::dateToRfc(new Carbon($s->date_debut)),
-						"toDate" => Utils::dateToRfc(new Carbon($s->date_fin)),
+						"fromDate" => Utils::dateToString(new Carbon($s->date_debut)),
+						"toDate"   => Utils::dateToString(new Carbon($s->date_fin)),
 						"id" => $s->id_session
 					];
 			
@@ -353,8 +355,8 @@ class AdminController extends Controller
 			
 			$args = [
 				"sessionDescription" => $session->description,
-				"fromDate" => Utils::dateToRfc(new Carbon($session->date_debut)),
-				"toDate" => Utils::dateToRfc(new Carbon($session->date_fin)),
+				"fromDate" => Utils::dateToString(new Carbon($session->date_debut)),
+				"toDate"   => Utils::dateToString(new Carbon($session->date_fin)),
 				"artworks" => $artworks
 			];
 			

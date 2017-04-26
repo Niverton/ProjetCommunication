@@ -166,6 +166,20 @@ header > div > h3
     font-size: 140%;
     margin: 15px 0 5px 0;
 }
+header > .menu
+{
+    min-width: 10em;
+    margin-left: auto;
+}
+header > .menu > a
+{
+    display: block;
+    margin-bottom: 5px;
+}
+header > .menu > a:hover
+{
+    border: none;
+}
 
 
 
@@ -184,20 +198,6 @@ header a
 header a:hover
 {
     border-style: solid;
-}
-header > .validate
-{
-    margin-left: auto;
-}
-header > .validate > a
-{
-    display: inline-block;
-    min-width: 10em;
-    margin-left: 20px;
-}
-header > .validate > a:hover
-{
-    border: none;
 }
 
 
@@ -454,7 +454,7 @@ header > .validate > a:hover
     font-size: 140%;
     font-style: italic;
 }
-.artwork > div > .side > .info time
+.artwork > div > .side > .info .time
 {
     font-size: 140%;
     padding-left: 15px;

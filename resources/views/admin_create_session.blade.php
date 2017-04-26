@@ -18,7 +18,7 @@
 
                     <h3>Nouvelle session</h3>
                     
-                    <time>
+                    <div class="time">
                         session ouverte
 
                         @if (empty($fromDate))
@@ -27,7 +27,7 @@
                             du <a href="#form">{{$fromDate}} au {{$toDate}}</a>
                         @endif
 
-                    </time>
+                    </div>
                 </div>
                 
                 <p><a href="#form">
@@ -38,8 +38,9 @@
                     @endif
                 </a></p>
                 
-                <span class="validate">
+                <span class="menu">
                     <a class="ok button" href="/admin/create/validate">Valider et créer la session de vote</a>
+                    <a class="cancel button" href="/admin">Retour à l'accueil</a>
                 </span>
                 
             </header>
@@ -96,9 +97,9 @@
             <div class="background"></div>
             <div class="content">
                 <label for="fromDate">Session de vote ouverte du :</label> <br />
-                <input type="date" id="fromDate" name="fromDate" value="{{$fromDate}}" placeholder="aaaa-mm-jj" />
+                <input type="date" id="fromDate" name="fromDate" value="{{$fromDateRfc}}" placeholder="aaaa-mm-jj" />
                 <label for="toDate"> au </label>
-                <input type="date" id="toDate" name="toDate" value="{{$toDate}}" placeholder="aaaa-mm-jj" />
+                <input type="date" id="toDate" name="toDate" value="{{$toDateRfc}}" placeholder="aaaa-mm-jj" />
 
                 <br />
                 <br />

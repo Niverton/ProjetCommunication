@@ -14,7 +14,7 @@
                 <h1>Votez pour vos œuvres favorites !</h1>
                 <h2>Musée des beaux-arts de Bordeaux</h2>
                 <h3>Résultats</h3>
-                <time>session du {{$fromDate}} au {{$toDate}}</time>
+                <div class="time">session du {{$fromDate}} au {{$toDate}}</div>
             </div>
             <p>{{$sessionDescription}}</p>
         </header>
@@ -37,7 +37,7 @@
                     <div class="side">
                         <div class="info">
                             <h4 class="name">{{$a['name']}}</h4>
-                            <div><span class="author">{{$a['author']}}</span> <time>{{$a['date']}}</time></div>
+                            <div><span class="author">{{$a['author']}}</span> <span class="time">{{$a['date']}}</span></div>
                             <p class="description">{{$a['description']}}</p>
                         </div>
                         <a class="cancel button" href="#n">Retour à la galerie</a>

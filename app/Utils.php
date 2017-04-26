@@ -26,6 +26,27 @@ class Utils
       else
          return $date->format('Y-m-d'); // RFC3339 format (html date input)
    }
+
+   static public function dateToString($date)
+   {
+      if ($date === null)
+         return "";
+      else
+         return $date->format('d-m-Y');
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
    
    static public function dummyArtworks()
    {
