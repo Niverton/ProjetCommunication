@@ -14,7 +14,7 @@
                 <h1>Votez pour vos œuvres favorites !</h1>
                 <h2>Musée des beaux-arts de Bordeaux</h2>
                 <h3>Résultats</h3>
-                <time>session du {{$fromDate}} au {{$toDate}}</time>
+                <p>session ouverte du <time>{{$fromDate}}</time> au <time>{{$toDate}}</time></p>
             </div>
             <p>{{$sessionDescription}}</p>
         </header>
