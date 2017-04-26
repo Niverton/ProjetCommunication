@@ -12,13 +12,15 @@
  */
 
 $app->get("/", function() use ($app) {
-	return '
-		<h1>Coucou !</h1>
+	return "
+		<h1>Mise en valeur des réserves</h1>
+        <h2>Projets de communication transdisciplinaire L3 S6 2016/2017</h2>
+        <h3>Benoit FAGET, Rémy MAUGEY, Oussama MEHDAOUI, Timothée JOURDE, Carlos NEZOUT</h3>
 		<ul>
-			<li> <a href="/vote">/vote</a> </li>
-			<li> <a href="/admin">/admin</a> </li>
+			<li> <a href=\"/vote\">Application Publique</a> </li>
+			<li> <a href=\"/admin\">Application d'Administration</a> </li>
 		</ul>
-	';
+	";
 });
 
 /* [VIEW] Liste d'auteurs de la session active */
