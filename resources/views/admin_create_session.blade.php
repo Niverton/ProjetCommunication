@@ -16,8 +16,10 @@
                     <h1>Votez pour vos œuvres favorites !</h1>
                     <h2>Musée des beaux-arts de Bordeaux</h2>
 
+                    <h3>Nouvelle session</h3>
+                    
                     <time>
-                        Session de vote ouverte
+                        session ouverte
 
                         @if (empty($fromDate))
                             <a href="#form">cliquez ici pour choisir les dates</a>
